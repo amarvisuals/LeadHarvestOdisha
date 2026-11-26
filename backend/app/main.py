@@ -33,6 +33,16 @@ app.add_middleware(
 
 app.include_router(router)
 
+@app.get("/")
+async def root():
+    return {
+        "app": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "status": "running",
+        "docs": "/docs",
+        "health": "/health"
+    }
+
 @app.get("/health")
 async def health_check():
     return {

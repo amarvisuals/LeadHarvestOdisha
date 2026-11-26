@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
     PROJECT_ROOT: Path = BASE_DIR.parent
-    CONFIG_DIR: Path = PROJECT_ROOT / "config"
+    CONFIG_DIR: Path = (PROJECT_ROOT / "config") if (PROJECT_ROOT / "config").exists() else (BASE_DIR / "config")
     DATA_DIR: Path = BASE_DIR / "data"
     UPLOADS_DIR: Path = DATA_DIR / "uploads"
     EXPORTS_DIR: Path = DATA_DIR / "exports"
