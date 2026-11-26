@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 15, 23, 42;
+  --background-start-rgb: 248, 250, 252;
+  --background-end-rgb: 241, 245, 249;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))
+    );
+  min-height: 100vh;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Custom glowing highlight for the progress bar tip */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 12px 3px rgba(20, 184, 166, 0.8), 0 0 24px 6px rgba(13, 148, 136, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 18px 6px rgba(45, 212, 191, 0.95), 0 0 32px 10px rgba(20, 184, 166, 0.7);
+  }
+}
+
+.tip-glow {
+  animation: glow-pulse 2s infinite ease-in-out;
+}
+
+/* Hourglass Sand Grain Animation */
+@keyframes sand-fall {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(32px) scale(0.6);
+    opacity: 0.2;
+  }
+}
+
+.sand-particle {
+  animation: sand-fall 0.8s infinite linear;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .sand-particle, .tip-glow {
+    animation: none !important;
+  }
+}
