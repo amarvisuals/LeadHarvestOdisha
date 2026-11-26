@@ -59,9 +59,14 @@ export default function ProgressPage() {
       .catch(() => {});
 
     // Connect directly to FastAPI SSE stream to bypass Next.js proxy buffering
+    const envApi = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/+$/, "");
     const sseHost =
-      process.env.NEXT_PUBLIC_API_URL ||
-      (typeof window !== "undefined" ? `http://${window.location.hostname}:8000` : "http://127.0.0.1:8000");
+      envApi ||
+      (typeof window !== "undefined"
+        ? window.location.hostname.endsWith("vercel.app")
+          ? "https://leadharvestodisha.onrender.com"
+          : `http://${window.location.hostname}:8000`
+        : "http://127.0.0.1:8000");
     const es = new EventSource(`${sseHost}/api/jobs/${jobId}/events`);
     eventSourceRef.current = es;
 
