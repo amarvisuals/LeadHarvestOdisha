@@ -1,4 +1,5 @@
 import json
+import uuid
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, Tuple, Union
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -139,7 +140,9 @@ async def seed_defaults(db: AsyncSession):
             admin_user.role = "admin"
             admin_user.is_verified = True
         else:
+            uid = f"usr_{uuid.uuid4().hex[:12]}"
             admin_user = User(
+                id=uid,
                 name=settings.ADMIN_NAME,
                 email=settings.ADMIN_EMAIL,
                 password_hash=hash_password(settings.ADMIN_PASSWORD),
@@ -151,7 +154,8 @@ async def seed_defaults(db: AsyncSession):
             db.add(admin_user)
             await db.flush()
             db.add(Subscription(
-                user_id=admin_user.id,
+                id=f"sub_{uuid.uuid4().hex[:12]}",
+                user_id=uid,
                 plan_id="agency",
                 status="active",
                 provider="manual",
