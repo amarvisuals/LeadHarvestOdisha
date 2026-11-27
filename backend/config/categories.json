@@ -1,24 +1,1847 @@
 [
-  { "id": "restaurants", "name": "Restaurants & Cafes", "keywords": ["Restaurants", "Cafes", "Fast Food", "Dine-in", "Food Outlets"] },
-  { "id": "hotels", "name": "Hotels & Resorts", "keywords": ["Hotels", "Resorts", "Lodging", "Guest Houses", "Homestays"] },
-  { "id": "gyms", "name": "Gyms & Fitness Centres", "keywords": ["Gyms", "Fitness Centres", "Yoga Studios", "Crossfit"] },
-  { "id": "schools", "name": "Schools & Daycare", "keywords": ["Schools", "Play Schools", "Daycare", "High Schools"] },
-  { "id": "coaching", "name": "Coaching Centres & Tutors", "keywords": ["Coaching Centres", "IIT JEE Coaching", "NEET Coaching", "Tuition"] },
-  { "id": "hospitals", "name": "Hospitals & Clinics", "keywords": ["Hospitals", "Clinics", "Nursing Homes", "Health Centres"] },
-  { "id": "dentists", "name": "Dentists & Dental Clinics", "keywords": ["Dentists", "Dental Clinics", "Orthodontists"] },
-  { "id": "real_estate", "name": "Real Estate Agents & Builders", "keywords": ["Real Estate Agents", "Property Dealers", "Builders", "Promoters"] },
-  { "id": "interior_designers", "name": "Interior Designers & Decorators", "keywords": ["Interior Designers", "Home Decor", "Modular Kitchen"] },
-  { "id": "wedding_planners", "name": "Wedding Planners & Event Organisers", "keywords": ["Wedding Planners", "Event Organisers", "Mandap Decorators"] },
-  { "id": "photographers", "name": "Photographers & Studios", "keywords": ["Photographers", "Photo Studios", "Wedding Videographers"] },
-  { "id": "car_dealers", "name": "Car Dealers & Garages", "keywords": ["Car Dealers", "Automobile Service", "Used Cars", "Garages"] },
-  { "id": "electronics", "name": "Electronics & Appliance Shops", "keywords": ["Electronics Shops", "Mobile Stores", "Appliance Dealers"] },
-  { "id": "salons", "name": "Salons & Beauty Parlours", "keywords": ["Salons", "Beauty Parlours", "Spa", "Hair Stylists"] },
-  { "id": "boutiques", "name": "Boutiques & Garment Stores", "keywords": ["Boutiques", "Clothing Stores", "Saree Showrooms", "Tailors"] },
-  { "id": "printing_press", "name": "Printing Presses & Signage", "keywords": ["Printing Press", "Flex Printing", "Digital Printing", "Signage"] },
-  { "id": "travel_agents", "name": "Travel & Tour Operators", "keywords": ["Travel Agents", "Tour Operators", "Car Rental", "Taxi Services"] },
-  { "id": "packers_movers", "name": "Packers and Movers", "keywords": ["Packers and Movers", "Logistics", "Transport Services"] },
-  { "id": "ca_tax", "name": "Chartered Accountants & Tax Consultants", "keywords": ["Chartered Accountants", "Tax Consultants", "GST Services"] },
-  { "id": "advocates", "name": "Advocates & Legal Advisors", "keywords": ["Advocates", "Legal Advisors", "Lawyers"] },
-  { "id": "hardware", "name": "Hardware & Sanitary Ware", "keywords": ["Hardware Shops", "Sanitary Ware", "Paints", "Building Materials"] },
-  { "id": "pharmacies", "name": "Pharmacies & Medical Stores", "keywords": ["Pharmacies", "Medical Stores", "Chemist"] }
+  {
+    "id": "dentists_and_dental_clinics",
+    "name": "Dentists & Dental Clinics",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Dentists & Dental Clinics",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "hospitals_and_nursing_homes",
+    "name": "Hospitals & Nursing Homes",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Hospitals & Nursing Homes",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "general_physicians",
+    "name": "General Physicians",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "General Physicians",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "diagnostic_centres_and_pathology_labs",
+    "name": "Diagnostic Centres & Pathology Labs",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Diagnostic Centres & Pathology Labs",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "pharmacies_and_medical_stores",
+    "name": "Pharmacies & Medical Stores",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Pharmacies & Medical Stores",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "physiotherapy_clinics",
+    "name": "Physiotherapy Clinics",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Physiotherapy Clinics",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "eye_hospitals_and_opticians",
+    "name": "Eye Hospitals & Opticians",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Eye Hospitals & Opticians",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "skin_and_dermatology_clinics",
+    "name": "Skin & Dermatology Clinics",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Skin & Dermatology Clinics",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "pediatricians_and_child_clinics",
+    "name": "Pediatricians & Child Clinics",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Pediatricians & Child Clinics",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "gynecologists_and_maternity_hospitals",
+    "name": "Gynecologists & Maternity Hospitals",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Gynecologists & Maternity Hospitals",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "orthopedic_clinics",
+    "name": "Orthopedic Clinics",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Orthopedic Clinics",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "cardiology_clinics",
+    "name": "Cardiology Clinics",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Cardiology Clinics",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "ent_specialists",
+    "name": "ENT Specialists",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "ENT Specialists",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "psychiatrists_and_counseling",
+    "name": "Psychiatrists & Counseling",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Psychiatrists & Counseling",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "veterinary_clinics_and_pet_hospitals",
+    "name": "Veterinary Clinics & Pet Hospitals",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Veterinary Clinics & Pet Hospitals",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "ayurvedic_clinics",
+    "name": "Ayurvedic Clinics",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Ayurvedic Clinics",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "homeopathic_clinics",
+    "name": "Homeopathic Clinics",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Homeopathic Clinics",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "dental_implant_centres",
+    "name": "Dental Implant Centres",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Dental Implant Centres",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "fertility_and_ivf_centres",
+    "name": "Fertility & IVF Centres",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Fertility & IVF Centres",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "dialysis_centres",
+    "name": "Dialysis Centres",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Dialysis Centres",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "physiotherapy_and_rehab_centres",
+    "name": "Physiotherapy & Rehab Centres",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Physiotherapy & Rehab Centres",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "hearing_aid_centres",
+    "name": "Hearing Aid Centres",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Hearing Aid Centres",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "blood_banks",
+    "name": "Blood Banks",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Blood Banks",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "ambulance_services",
+    "name": "Ambulance Services",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Ambulance Services",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "medical_equipment_dealers",
+    "name": "Medical Equipment Dealers",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Medical Equipment Dealers",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "surgical_goods_dealers",
+    "name": "Surgical Goods Dealers",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Surgical Goods Dealers",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "nutritionists_and_dietitians",
+    "name": "Nutritionists & Dietitians",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Nutritionists & Dietitians",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "speech_therapy_centres",
+    "name": "Speech Therapy Centres",
+    "group": "Healthcare & Medical",
+    "keywords": [
+      "Speech Therapy Centres",
+      "Healthcare"
+    ]
+  },
+  {
+    "id": "restaurants_and_cafes",
+    "name": "Restaurants & Cafes",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Restaurants & Cafes",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "hotels_and_resorts",
+    "name": "Hotels & Resorts",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Hotels & Resorts",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "bakeries_and_cake_shops",
+    "name": "Bakeries & Cake Shops",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Bakeries & Cake Shops",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "sweet_shops_and_mithai",
+    "name": "Sweet Shops & Mithai",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Sweet Shops & Mithai",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "catering_services",
+    "name": "Catering Services",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Catering Services",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "cloud_kitchens",
+    "name": "Cloud Kitchens",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Cloud Kitchens",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "fast_food_and_qsr_outlets",
+    "name": "Fast Food & QSR Outlets",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Fast Food & QSR Outlets",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "ice_cream_parlours",
+    "name": "Ice Cream Parlours",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Ice Cream Parlours",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "juice_and_shake_bars",
+    "name": "Juice & Shake Bars",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Juice & Shake Bars",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "banquet_and_marriage_halls",
+    "name": "Banquet & Marriage Halls",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Banquet & Marriage Halls",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "wedding_planners",
+    "name": "Wedding Planners",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Wedding Planners",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "event_organisers",
+    "name": "Event Organisers",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Event Organisers",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "photographers_and_videographers",
+    "name": "Photographers & Videographers",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Photographers & Videographers",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "wedding_decorators_and_mandap",
+    "name": "Wedding Decorators & Mandap",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Wedding Decorators & Mandap",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "dj_and_sound_systems",
+    "name": "DJ & Sound Systems",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "DJ & Sound Systems",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "tent_houses",
+    "name": "Tent Houses",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Tent Houses",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "guest_houses_and_lodges",
+    "name": "Guest Houses & Lodges",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Guest Houses & Lodges",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "homestays_and_villas",
+    "name": "Homestays & Villas",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Homestays & Villas",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "travel_and_tour_operators",
+    "name": "Travel & Tour Operators",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Travel & Tour Operators",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "pilgrimage_tour_packages",
+    "name": "Pilgrimage Tour Packages",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Pilgrimage Tour Packages",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "corporate_event_management",
+    "name": "Corporate Event Management",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Corporate Event Management",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "stage_and_lighting_rentals",
+    "name": "Stage & Lighting Rentals",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Stage & Lighting Rentals",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "bartending_services",
+    "name": "Bartending Services",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Bartending Services",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "florists_and_bouquet_shops",
+    "name": "Florists & Bouquet Shops",
+    "group": "Food, Hospitality & Events",
+    "keywords": [
+      "Florists & Bouquet Shops",
+      "Food, Hospitality"
+    ]
+  },
+  {
+    "id": "schools_and_k-12_institutions",
+    "name": "Schools & K-12 Institutions",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Schools & K-12 Institutions",
+      "Education"
+    ]
+  },
+  {
+    "id": "play_schools_and_daycare",
+    "name": "Play Schools & Daycare",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Play Schools & Daycare",
+      "Education"
+    ]
+  },
+  {
+    "id": "coaching_centres_and_tutors",
+    "name": "Coaching Centres & Tutors",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Coaching Centres & Tutors",
+      "Education"
+    ]
+  },
+  {
+    "id": "iit_jee_and_neet_coaching",
+    "name": "IIT JEE & NEET Coaching",
+    "group": "Education & Coaching",
+    "keywords": [
+      "IIT JEE & NEET Coaching",
+      "Education"
+    ]
+  },
+  {
+    "id": "upsc_and_opsc_coaching",
+    "name": "UPSC & OPSC Coaching",
+    "group": "Education & Coaching",
+    "keywords": [
+      "UPSC & OPSC Coaching",
+      "Education"
+    ]
+  },
+  {
+    "id": "banking_and_ssc_coaching",
+    "name": "Banking & SSC Coaching",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Banking & SSC Coaching",
+      "Education"
+    ]
+  },
+  {
+    "id": "computer_and_it_training_institutes",
+    "name": "Computer & IT Training Institutes",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Computer & IT Training Institutes",
+      "Education"
+    ]
+  },
+  {
+    "id": "spoken_english_and_ielts",
+    "name": "Spoken English & IELTS",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Spoken English & IELTS",
+      "Education"
+    ]
+  },
+  {
+    "id": "digital_marketing_institutes",
+    "name": "Digital Marketing Institutes",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Digital Marketing Institutes",
+      "Education"
+    ]
+  },
+  {
+    "id": "driving_schools",
+    "name": "Driving Schools",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Driving Schools",
+      "Education"
+    ]
+  },
+  {
+    "id": "music_and_dance_academies",
+    "name": "Music & Dance Academies",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Music & Dance Academies",
+      "Education"
+    ]
+  },
+  {
+    "id": "art_and_craft_classes",
+    "name": "Art & Craft Classes",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Art & Craft Classes",
+      "Education"
+    ]
+  },
+  {
+    "id": "yoga_and_meditation_centres",
+    "name": "Yoga & Meditation Centres",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Yoga & Meditation Centres",
+      "Education"
+    ]
+  },
+  {
+    "id": "martial_arts_and_karate_classes",
+    "name": "Martial Arts & Karate Classes",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Martial Arts & Karate Classes",
+      "Education"
+    ]
+  },
+  {
+    "id": "abacus_and_vedic_maths",
+    "name": "Abacus & Vedic Maths",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Abacus & Vedic Maths",
+      "Education"
+    ]
+  },
+  {
+    "id": "study_abroad_consultants",
+    "name": "Study Abroad Consultants",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Study Abroad Consultants",
+      "Education"
+    ]
+  },
+  {
+    "id": "vocational_training_centres",
+    "name": "Vocational Training Centres",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Vocational Training Centres",
+      "Education"
+    ]
+  },
+  {
+    "id": "colleges_and_universities",
+    "name": "Colleges & Universities",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Colleges & Universities",
+      "Education"
+    ]
+  },
+  {
+    "id": "hostels_and_pg_accommodations",
+    "name": "Hostels & PG Accommodations",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Hostels & PG Accommodations",
+      "Education"
+    ]
+  },
+  {
+    "id": "libraries_and_reading_rooms",
+    "name": "Libraries & Reading Rooms",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Libraries & Reading Rooms",
+      "Education"
+    ]
+  },
+  {
+    "id": "bookstores_and_stationery",
+    "name": "Bookstores & Stationery",
+    "group": "Education & Coaching",
+    "keywords": [
+      "Bookstores & Stationery",
+      "Education"
+    ]
+  },
+  {
+    "id": "real_estate_agents_and_brokers",
+    "name": "Real Estate Agents & Brokers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Real Estate Agents & Brokers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "builders_and_property_developers",
+    "name": "Builders & Property Developers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Builders & Property Developers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "interior_designers",
+    "name": "Interior Designers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Interior Designers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "architects_and_structural_engineers",
+    "name": "Architects & Structural Engineers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Architects & Structural Engineers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "modular_kitchen_dealers",
+    "name": "Modular Kitchen Dealers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Modular Kitchen Dealers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "civil_contractors",
+    "name": "Civil Contractors",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Civil Contractors",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "painting_contractors",
+    "name": "Painting Contractors",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Painting Contractors",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "waterproofing_contractors",
+    "name": "Waterproofing Contractors",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Waterproofing Contractors",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "plumbing_and_sanitary_ware",
+    "name": "Plumbing & Sanitary Ware",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Plumbing & Sanitary Ware",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "hardware_and_building_materials",
+    "name": "Hardware & Building Materials",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Hardware & Building Materials",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "tiles_and_granite_showrooms",
+    "name": "Tiles & Granite Showrooms",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Tiles & Granite Showrooms",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "timber_and_plywood_dealers",
+    "name": "Timber & Plywood Dealers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Timber & Plywood Dealers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "glass_and_aluminium_fabricators",
+    "name": "Glass & Aluminium Fabricators",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Glass & Aluminium Fabricators",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "steel_and_iron_suppliers",
+    "name": "Steel & Iron Suppliers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Steel & Iron Suppliers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "cement_dealers",
+    "name": "Cement Dealers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Cement Dealers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "solar_panel_dealers_and_installers",
+    "name": "Solar Panel Dealers & Installers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Solar Panel Dealers & Installers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "furniture_showrooms",
+    "name": "Furniture Showrooms",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Furniture Showrooms",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "mattress_and_home_furnishing",
+    "name": "Mattress & Home Furnishing",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Mattress & Home Furnishing",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "curtains_and_blinds",
+    "name": "Curtains & Blinds",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Curtains & Blinds",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "wallpaper_and_false_ceiling",
+    "name": "Wallpaper & False Ceiling",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Wallpaper & False Ceiling",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "pest_control_services",
+    "name": "Pest Control Services",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Pest Control Services",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "home_cleaning_and_deep_cleaning",
+    "name": "Home Cleaning & Deep Cleaning",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Home Cleaning & Deep Cleaning",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "packers_and_movers",
+    "name": "Packers and Movers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Packers and Movers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "vastu_consultants",
+    "name": "Vastu Consultants",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Vastu Consultants",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "land_surveyors",
+    "name": "Land Surveyors",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Land Surveyors",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "borewell_and_pump_dealers",
+    "name": "Borewell & Pump Dealers",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Borewell & Pump Dealers",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "swimming_pool_contractors",
+    "name": "Swimming Pool Contractors",
+    "group": "Real Estate, Construction & Home",
+    "keywords": [
+      "Swimming Pool Contractors",
+      "Real Estate, Construction"
+    ]
+  },
+  {
+    "id": "salons_and_beauty_parlours",
+    "name": "Salons & Beauty Parlours",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Salons & Beauty Parlours",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "unisex_hair_salons",
+    "name": "Unisex Hair Salons",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Unisex Hair Salons",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "spas_and_wellness_centres",
+    "name": "Spas & Wellness Centres",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Spas & Wellness Centres",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "gyms_and_fitness_centres",
+    "name": "Gyms & Fitness Centres",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Gyms & Fitness Centres",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "crossfit_and_functional_training",
+    "name": "Crossfit & Functional Training",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Crossfit & Functional Training",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "bridal_makeup_artists",
+    "name": "Bridal Makeup Artists",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Bridal Makeup Artists",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "nail_art_and_lash_studios",
+    "name": "Nail Art & Lash Studios",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Nail Art & Lash Studios",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "tattoo_and_piercing_studios",
+    "name": "Tattoo & Piercing Studios",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Tattoo & Piercing Studios",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "boutiques_and_designer_wear",
+    "name": "Boutiques & Designer Wear",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Boutiques & Designer Wear",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "saree_and_ethnic_showrooms",
+    "name": "Saree & Ethnic Showrooms",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Saree & Ethnic Showrooms",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "men's_clothing_and_tailors",
+    "name": "Men's Clothing & Tailors",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Men's Clothing & Tailors",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "readymade_garment_stores",
+    "name": "Readymade Garment Stores",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Readymade Garment Stores",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "jewellers_and_gold_showrooms",
+    "name": "Jewellers & Gold Showrooms",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Jewellers & Gold Showrooms",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "imitation_jewellery_shops",
+    "name": "Imitation Jewellery Shops",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Imitation Jewellery Shops",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "footwear_showrooms",
+    "name": "Footwear Showrooms",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Footwear Showrooms",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "handbags_and_luggage_stores",
+    "name": "Handbags & Luggage Stores",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Handbags & Luggage Stores",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "cosmetics_and_beauty_supply",
+    "name": "Cosmetics & Beauty Supply",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Cosmetics & Beauty Supply",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "dry_cleaners_and_laundry",
+    "name": "Dry Cleaners & Laundry",
+    "group": "Beauty, Wellness & Fashion",
+    "keywords": [
+      "Dry Cleaners & Laundry",
+      "Beauty, Wellness"
+    ]
+  },
+  {
+    "id": "car_dealers_new_and_used",
+    "name": "Car Dealers (New & Used)",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Car Dealers (New & Used)",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "two-wheeler_showrooms",
+    "name": "Two-Wheeler Showrooms",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Two-Wheeler Showrooms",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "electric_vehicle_ev_dealers",
+    "name": "Electric Vehicle (EV) Dealers",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Electric Vehicle (EV) Dealers",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "car_service_and_repair_garages",
+    "name": "Car Service & Repair Garages",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Car Service & Repair Garages",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "car_detailing_and_ceramic_coating",
+    "name": "Car Detailing & Ceramic Coating",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Car Detailing & Ceramic Coating",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "car_accessories_and_audio",
+    "name": "Car Accessories & Audio",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Car Accessories & Audio",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "tyre_and_battery_dealers",
+    "name": "Tyre & Battery Dealers",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Tyre & Battery Dealers",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "automobile_spare_parts",
+    "name": "Automobile Spare Parts",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Automobile Spare Parts",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "wheel_alignment_centres",
+    "name": "Wheel Alignment Centres",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Wheel Alignment Centres",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "car_wash_and_spa",
+    "name": "Car Wash & Spa",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Car Wash & Spa",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "crane_and_heavy_equipment_rental",
+    "name": "Crane & Heavy Equipment Rental",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Crane & Heavy Equipment Rental",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "logistics_and_freight_transporters",
+    "name": "Logistics & Freight Transporters",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Logistics & Freight Transporters",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "cold_storage_and_warehousing",
+    "name": "Cold Storage & Warehousing",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Cold Storage & Warehousing",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "industrial_machinery_suppliers",
+    "name": "Industrial Machinery Suppliers",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Industrial Machinery Suppliers",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "generator_dealers_and_rentals",
+    "name": "Generator Dealers & Rentals",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Generator Dealers & Rentals",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "packaging_material_manufacturers",
+    "name": "Packaging Material Manufacturers",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Packaging Material Manufacturers",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "plastic_and_polymer_suppliers",
+    "name": "Plastic & Polymer Suppliers",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Plastic & Polymer Suppliers",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "chemical_suppliers",
+    "name": "Chemical Suppliers",
+    "group": "Automotive & Industrial",
+    "keywords": [
+      "Chemical Suppliers",
+      "Automotive"
+    ]
+  },
+  {
+    "id": "chartered_accountants_ca",
+    "name": "Chartered Accountants (CA)",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Chartered Accountants (CA)",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "tax_and_gst_consultants",
+    "name": "Tax & GST Consultants",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Tax & GST Consultants",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "advocates_and_law_firms",
+    "name": "Advocates & Law Firms",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Advocates & Law Firms",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "company_secretaries_cs",
+    "name": "Company Secretaries (CS)",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Company Secretaries (CS)",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "loan_and_mortgage_consultants",
+    "name": "Loan & Mortgage Consultants",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Loan & Mortgage Consultants",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "insurance_agents_and_advisors",
+    "name": "Insurance Agents & Advisors",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Insurance Agents & Advisors",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "mutual_fund_and_wealth_advisors",
+    "name": "Mutual Fund & Wealth Advisors",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Mutual Fund & Wealth Advisors",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "real_estate_legal_advisors",
+    "name": "Real Estate Legal Advisors",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Real Estate Legal Advisors",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "trademark_and_ip_attorneys",
+    "name": "Trademark & IP Attorneys",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Trademark & IP Attorneys",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "hr_and_recruitment_agencies",
+    "name": "HR & Recruitment Agencies",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "HR & Recruitment Agencies",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "security_guard_services",
+    "name": "Security Guard Services",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Security Guard Services",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "housekeeping_and_facility_management",
+    "name": "Housekeeping & Facility Management",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Housekeeping & Facility Management",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "translation_and_notary_services",
+    "name": "Translation & Notary Services",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Translation & Notary Services",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "passport_and_visa_consultants",
+    "name": "Passport & Visa Consultants",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Passport & Visa Consultants",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "architecture_and_3d_rendering",
+    "name": "Architecture & 3D Rendering",
+    "group": "Professional, Legal & Finance",
+    "keywords": [
+      "Architecture & 3D Rendering",
+      "Professional, Legal"
+    ]
+  },
+  {
+    "id": "digital_marketing_agencies",
+    "name": "Digital Marketing Agencies",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Digital Marketing Agencies",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "web_design_and_software_companies",
+    "name": "Web Design & Software Companies",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Web Design & Software Companies",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "seo_and_social_media_agencies",
+    "name": "SEO & Social Media Agencies",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "SEO & Social Media Agencies",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "printing_presses_and_flex_printing",
+    "name": "Printing Presses & Flex Printing",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Printing Presses & Flex Printing",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "signage_and_led_board_makers",
+    "name": "Signage & LED Board Makers",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Signage & LED Board Makers",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "mobile_phone_stores_and_repair",
+    "name": "Mobile Phone Stores & Repair",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Mobile Phone Stores & Repair",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "laptop_and_computer_dealers",
+    "name": "Laptop & Computer Dealers",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Laptop & Computer Dealers",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "it_hardware_and_networking",
+    "name": "IT Hardware & Networking",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "IT Hardware & Networking",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "cctv_and_security_camera_dealers",
+    "name": "CCTV & Security Camera Dealers",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "CCTV & Security Camera Dealers",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "biometric_and_access_control",
+    "name": "Biometric & Access Control",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Biometric & Access Control",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "home_appliances_and_ac_dealers",
+    "name": "Home Appliances & AC Dealers",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Home Appliances & AC Dealers",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "ac_repair_and_amc_services",
+    "name": "AC Repair & AMC Services",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "AC Repair & AMC Services",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "inverter_and_ups_dealers",
+    "name": "Inverter & UPS Dealers",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Inverter & UPS Dealers",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "water_purifier_dealers_and_service",
+    "name": "Water Purifier Dealers & Service",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Water Purifier Dealers & Service",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "sound_and_home_theatre",
+    "name": "Sound & Home Theatre",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Sound & Home Theatre",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "photocopier_and_printer_dealers",
+    "name": "Photocopier & Printer Dealers",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Photocopier & Printer Dealers",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "courier_and_parcel_services",
+    "name": "Courier & Parcel Services",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Courier & Parcel Services",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "gift_and_corporate_merchandise",
+    "name": "Gift & Corporate Merchandise",
+    "group": "IT, Marketing & Electronics",
+    "keywords": [
+      "Gift & Corporate Merchandise",
+      "IT, Marketing"
+    ]
+  },
+  {
+    "id": "garment_manufacturers_and_exporters",
+    "name": "Garment Manufacturers & Exporters",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Garment Manufacturers & Exporters",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "textile_and_fabric_wholesalers",
+    "name": "Textile & Fabric Wholesalers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Textile & Fabric Wholesalers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "cotton_and_yarn_dealers",
+    "name": "Cotton & Yarn Dealers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Cotton & Yarn Dealers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "handloom_and_handicraft_stores",
+    "name": "Handloom & Handicraft Stores",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Handloom & Handicraft Stores",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "rice_mills_and_grain_merchants",
+    "name": "Rice Mills & Grain Merchants",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Rice Mills & Grain Merchants",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "flour_and_dal_mills",
+    "name": "Flour & Dal Mills",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Flour & Dal Mills",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "dairy_farms_and_milk_distributors",
+    "name": "Dairy Farms & Milk Distributors",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Dairy Farms & Milk Distributors",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "poultry_farms_and_hatcheries",
+    "name": "Poultry Farms & Hatcheries",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Poultry Farms & Hatcheries",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "cold_pressed_oil_mills",
+    "name": "Cold Pressed Oil Mills",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Cold Pressed Oil Mills",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "spices_and_masala_manufacturers",
+    "name": "Spices & Masala Manufacturers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Spices & Masala Manufacturers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "agricultural_equipment_and_tractors",
+    "name": "Agricultural Equipment & Tractors",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Agricultural Equipment & Tractors",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "seed_and_fertilizer_dealers",
+    "name": "Seed & Fertilizer Dealers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Seed & Fertilizer Dealers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "drip_irrigation_suppliers",
+    "name": "Drip Irrigation Suppliers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Drip Irrigation Suppliers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "nurseries_and_landscaping",
+    "name": "Nurseries & Landscaping",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Nurseries & Landscaping",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "paper_and_cardboard_box_manufacturers",
+    "name": "Paper & Cardboard Box Manufacturers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Paper & Cardboard Box Manufacturers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "corrugated_packaging_units",
+    "name": "Corrugated Packaging Units",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Corrugated Packaging Units",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "printing_and_label_manufacturers",
+    "name": "Printing & Label Manufacturers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Printing & Label Manufacturers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "pharmaceutical_distributors",
+    "name": "Pharmaceutical Distributors",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Pharmaceutical Distributors",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "surgical_mask_and_ppe_suppliers",
+    "name": "Surgical Mask & PPE Suppliers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Surgical Mask & PPE Suppliers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "steel_fabrication_and_welding",
+    "name": "Steel Fabrication & Welding",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Steel Fabrication & Welding",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "cnc_and_lathe_machine_workshops",
+    "name": "CNC & Lathe Machine Workshops",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "CNC & Lathe Machine Workshops",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "ro_water_plant_manufacturers",
+    "name": "RO Water Plant Manufacturers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "RO Water Plant Manufacturers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "food_processing_machinery",
+    "name": "Food Processing Machinery",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Food Processing Machinery",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "bakery_equipment_suppliers",
+    "name": "Bakery Equipment Suppliers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Bakery Equipment Suppliers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "restaurant_kitchen_equipment",
+    "name": "Restaurant Kitchen Equipment",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Restaurant Kitchen Equipment",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "hotel_linen_and_uniform_suppliers",
+    "name": "Hotel Linen & Uniform Suppliers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Hotel Linen & Uniform Suppliers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "corporate_uniform_makers",
+    "name": "Corporate Uniform Makers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Corporate Uniform Makers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "leather_goods_and_bag_manufacturers",
+    "name": "Leather Goods & Bag Manufacturers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Leather Goods & Bag Manufacturers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "footwear_manufacturers",
+    "name": "Footwear Manufacturers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Footwear Manufacturers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "rubber_and_gasket_suppliers",
+    "name": "Rubber & Gasket Suppliers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Rubber & Gasket Suppliers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "electrical_panel_and_switchgear",
+    "name": "Electrical Panel & Switchgear",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Electrical Panel & Switchgear",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "transformer_and_cable_dealers",
+    "name": "Transformer & Cable Dealers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Transformer & Cable Dealers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "pump_and_motor_dealers",
+    "name": "Pump & Motor Dealers",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Pump & Motor Dealers",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "borewell_drilling_contractors",
+    "name": "Borewell Drilling Contractors",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Borewell Drilling Contractors",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "pre-engineered_building_peb",
+    "name": "Pre-Engineered Building (PEB)",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Pre-Engineered Building (PEB)",
+      "Manufacturing, Textiles"
+    ]
+  },
+  {
+    "id": "scaffolding_and_shuttering_rental",
+    "name": "Scaffolding & Shuttering Rental",
+    "group": "Manufacturing, Textiles & Agro",
+    "keywords": [
+      "Scaffolding & Shuttering Rental",
+      "Manufacturing, Textiles"
+    ]
+  }
 ]

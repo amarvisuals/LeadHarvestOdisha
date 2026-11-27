@@ -4,6 +4,10 @@ const apiUrl = rawApiUrl.replace(/\/+$/, "");
 
 const nextConfig = {
   reactStrictMode: true,
+  trailingSlash: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
   async rewrites() {
     return [
       {

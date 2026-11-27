@@ -35,6 +35,18 @@ class JustdialAdapter(BaseSourceAdapter):
         self._browser: Optional[Browser] = None
         self._context: Optional[BrowserContext] = None
 
+    def capabilities(self) -> Dict[str, bool]:
+        return {
+            "has_website": True,
+            "mobile": True,
+            "email": False,
+            "rating": True,
+            "reviews": True,
+            "verified": True,
+            "social_only": False,
+            "exclude_chains": True,
+        }
+
     async def _init_browser(self):
         if not self._playwright:
             self._playwright = await async_playwright().start()
@@ -61,7 +73,8 @@ class JustdialAdapter(BaseSourceAdapter):
         on_listing_collected: Callable[[Dict[str, Any]], Awaitable[None]],
         on_progress_update: Callable[[str, str], Awaitable[None]],
         check_pause_cancel: Callable[[], Awaitable[Tuple[bool, bool]]],
-        wait_for_resume: Callable[[], Awaitable[None]]
+        wait_for_resume: Callable[[], Awaitable[None]],
+        state: str = "Odisha",
     ) -> List[Dict[str, Any]]:
         await self._init_browser()
         results: List[Dict[str, Any]] = []

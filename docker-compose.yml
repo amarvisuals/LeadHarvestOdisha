@@ -1,20 +1,55 @@
 version: '3.8'
 
 services:
-  backend:
+  postgres:
+    image: postgres:16-alpine
+    container_name: leadharvest_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-leadharvest}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-leadharvest_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-leadharvest}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-leadharvest}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: leadharvest_redis
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  api:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: leadharvest_backend
+    container_name: leadharvest_api
     ports:
       - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     volumes:
       - ./backend/data:/app/data
       - ./config:/app/config
     environment:
-      - LEADHARVEST_DEBUG=false
-      - LEADHARVEST_MIN_PAGE_DELAY_SEC=2.0
-      - LEADHARVEST_MAX_PAGE_DELAY_SEC=5.0
+      LEADHARVEST_ENVIRONMENT: production
+      LEADHARVEST_DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-leadharvest}:${POSTGRES_PASSWORD:-leadharvest_secret}@postgres:5432/${POSTGRES_DB:-leadharvest}
+      LEADHARVEST_REDIS_URL: redis://redis:6379/0
+      LEADHARVEST_SECRET_KEY: ${LEADHARVEST_SECRET_KEY:-change-me-in-production}
+      LEADHARVEST_PAYMENT_MODE: ${LEADHARVEST_PAYMENT_MODE:-simulated}
+      LEADHARVEST_RAZORPAY_KEY_ID: ${LEADHARVEST_RAZORPAY_KEY_ID:-}
+      LEADHARVEST_RAZORPAY_KEY_SECRET: ${LEADHARVEST_RAZORPAY_KEY_SECRET:-}
+      LEADHARVEST_RAZORPAY_WEBHOOK_SECRET: ${LEADHARVEST_RAZORPAY_WEBHOOK_SECRET:-dev-webhook-secret}
+      LEADHARVEST_EMAIL_PROVIDER: ${LEADHARVEST_EMAIL_PROVIDER:-console}
+      LEADHARVEST_FRONTEND_URL: ${LEADHARVEST_FRONTEND_URL:-http://localhost:3000}
     restart: unless-stopped
 
   frontend:
@@ -25,7 +60,11 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      - api
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:8000
+      NEXT_PUBLIC_API_URL: http://api:8000
     restart: unless-stopped
+
+volumes:
+  pg_data:
+  redis_data:

@@ -1,0 +1,1486 @@
+[
+  {
+    "id": "odisha",
+    "name": "Odisha",
+    "type": "State",
+    "cities": [
+      {
+        "id": "bhubaneswar",
+        "name": "Bhubaneswar",
+        "district": "Khordha",
+        "tier": "Metro / Capital",
+        "pincode_prefix": "751"
+      },
+      {
+        "id": "cuttack",
+        "name": "Cuttack",
+        "district": "Cuttack",
+        "tier": "Major City",
+        "pincode_prefix": "753"
+      },
+      {
+        "id": "rourkela",
+        "name": "Rourkela",
+        "district": "Sundargarh",
+        "tier": "Major City",
+        "pincode_prefix": "769"
+      },
+      {
+        "id": "berhampur",
+        "name": "Berhampur (Brahmapur)",
+        "district": "Ganjam",
+        "tier": "Major City",
+        "pincode_prefix": "760"
+      },
+      {
+        "id": "sambalpur",
+        "name": "Sambalpur",
+        "district": "Sambalpur",
+        "tier": "Major City",
+        "pincode_prefix": "768"
+      },
+      {
+        "id": "puri",
+        "name": "Puri",
+        "district": "Puri",
+        "tier": "Tourist / Commercial",
+        "pincode_prefix": "752"
+      },
+      {
+        "id": "balasore",
+        "name": "Balasore (Baleswar)",
+        "district": "Balasore",
+        "tier": "Commercial Town",
+        "pincode_prefix": "756"
+      },
+      {
+        "id": "bhadrak",
+        "name": "Bhadrak",
+        "district": "Bhadrak",
+        "tier": "Commercial Town",
+        "pincode_prefix": "756"
+      },
+      {
+        "id": "baripada",
+        "name": "Baripada",
+        "district": "Mayurbhanj",
+        "tier": "District HQ",
+        "pincode_prefix": "757"
+      },
+      {
+        "id": "jharsuguda",
+        "name": "Jharsuguda",
+        "district": "Jharsuguda",
+        "tier": "Industrial Hub",
+        "pincode_prefix": "768"
+      },
+      {
+        "id": "jeypore",
+        "name": "Jeypore",
+        "district": "Koraput",
+        "tier": "Commercial Town",
+        "pincode_prefix": "764"
+      },
+      {
+        "id": "koraput",
+        "name": "Koraput",
+        "district": "Koraput",
+        "tier": "District HQ",
+        "pincode_prefix": "764"
+      },
+      {
+        "id": "angul",
+        "name": "Angul",
+        "district": "Angul",
+        "tier": "Industrial Hub",
+        "pincode_prefix": "759"
+      },
+      {
+        "id": "talcher",
+        "name": "Talcher",
+        "district": "Angul",
+        "tier": "Industrial Hub",
+        "pincode_prefix": "759"
+      },
+      {
+        "id": "paradip",
+        "name": "Paradip",
+        "district": "Jagatsinghpur",
+        "tier": "Port City",
+        "pincode_prefix": "754"
+      },
+      {
+        "id": "dhenkanal",
+        "name": "Dhenkanal",
+        "district": "Dhenkanal",
+        "tier": "District HQ",
+        "pincode_prefix": "759"
+      },
+      {
+        "id": "jajpur",
+        "name": "Jajpur",
+        "district": "Jajpur",
+        "tier": "District HQ",
+        "pincode_prefix": "755"
+      },
+      {
+        "id": "jajpur_road",
+        "name": "Jajpur Road (Vyasanagar)",
+        "district": "Jajpur",
+        "tier": "Industrial Town",
+        "pincode_prefix": "755"
+      },
+      {
+        "id": "kendrapara",
+        "name": "Kendrapara",
+        "district": "Kendrapara",
+        "tier": "District HQ",
+        "pincode_prefix": "754"
+      },
+      {
+        "id": "jagatsinghpur",
+        "name": "Jagatsinghpur",
+        "district": "Jagatsinghpur",
+        "tier": "District HQ",
+        "pincode_prefix": "754"
+      },
+      {
+        "id": "khordha_town",
+        "name": "Khordha Town",
+        "district": "Khordha",
+        "tier": "District HQ",
+        "pincode_prefix": "752"
+      },
+      {
+        "id": "jatni",
+        "name": "Jatni",
+        "district": "Khordha",
+        "tier": "Railway Hub",
+        "pincode_prefix": "752"
+      },
+      {
+        "id": "nayagarh",
+        "name": "Nayagarh",
+        "district": "Nayagarh",
+        "tier": "District HQ",
+        "pincode_prefix": "752"
+      },
+      {
+        "id": "ganjam",
+        "name": "Ganjam",
+        "district": "Ganjam",
+        "tier": "Historic Town",
+        "pincode_prefix": "761"
+      },
+      {
+        "id": "paralakhemundi",
+        "name": "Paralakhemundi",
+        "district": "Gajapati",
+        "tier": "District HQ",
+        "pincode_prefix": "761"
+      },
+      {
+        "id": "phulbani",
+        "name": "Phulbani",
+        "district": "Kandhamal",
+        "tier": "District HQ",
+        "pincode_prefix": "762"
+      },
+      {
+        "id": "boudh",
+        "name": "Boudh",
+        "district": "Boudh",
+        "tier": "District HQ",
+        "pincode_prefix": "762"
+      },
+      {
+        "id": "sonepur",
+        "name": "Sonepur (Subarnapur)",
+        "district": "Subarnapur",
+        "tier": "District HQ",
+        "pincode_prefix": "767"
+      },
+      {
+        "id": "balangir",
+        "name": "Balangir (Bolangir)",
+        "district": "Balangir",
+        "tier": "District HQ",
+        "pincode_prefix": "767"
+      },
+      {
+        "id": "nuapada",
+        "name": "Nuapada",
+        "district": "Nuapada",
+        "tier": "District HQ",
+        "pincode_prefix": "766"
+      },
+      {
+        "id": "bhawanipatna",
+        "name": "Bhawanipatna",
+        "district": "Kalahandi",
+        "tier": "District HQ",
+        "pincode_prefix": "766"
+      },
+      {
+        "id": "rayagada",
+        "name": "Rayagada",
+        "district": "Rayagada",
+        "tier": "District HQ",
+        "pincode_prefix": "765"
+      },
+      {
+        "id": "nabarangpur",
+        "name": "Nabarangpur",
+        "district": "Nabarangpur",
+        "tier": "District HQ",
+        "pincode_prefix": "764"
+      },
+      {
+        "id": "malkangiri",
+        "name": "Malkangiri",
+        "district": "Malkangiri",
+        "tier": "District HQ",
+        "pincode_prefix": "764"
+      },
+      {
+        "id": "kendujhar",
+        "name": "Kendujhar (Keonjhar)",
+        "district": "Kendujhar",
+        "tier": "District HQ",
+        "pincode_prefix": "758"
+      },
+      {
+        "id": "deogarh",
+        "name": "Deogarh (Debagarh)",
+        "district": "Deogarh",
+        "tier": "District HQ",
+        "pincode_prefix": "768"
+      },
+      {
+        "id": "sundargarh",
+        "name": "Sundargarh",
+        "district": "Sundargarh",
+        "tier": "District HQ",
+        "pincode_prefix": "770"
+      },
+      {
+        "id": "bargarh",
+        "name": "Bargarh",
+        "district": "Bargarh",
+        "tier": "District HQ",
+        "pincode_prefix": "768"
+      }
+    ]
+  },
+  {
+    "id": "andhra_pradesh",
+    "name": "Andhra Pradesh",
+    "type": "State",
+    "cities": [
+      {
+        "id": "visakhapatnam",
+        "name": "Visakhapatnam",
+        "district": "Visakhapatnam",
+        "tier": "Metro"
+      },
+      {
+        "id": "vijayawada",
+        "name": "Vijayawada",
+        "district": "NTR",
+        "tier": "Major City"
+      },
+      {
+        "id": "guntur",
+        "name": "Guntur",
+        "district": "Guntur",
+        "tier": "Major City"
+      },
+      {
+        "id": "tirupati",
+        "name": "Tirupati",
+        "district": "Tirupati",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "nellore",
+        "name": "Nellore",
+        "district": "Nellore",
+        "tier": "District HQ"
+      },
+      {
+        "id": "kakinada",
+        "name": "Kakinada",
+        "district": "Kakinada",
+        "tier": "Port City"
+      },
+      {
+        "id": "rajahmundry",
+        "name": "Rajahmundry",
+        "district": "East Godavari",
+        "tier": "Commercial Town"
+      },
+      {
+        "id": "kurnool",
+        "name": "Kurnool",
+        "district": "Kurnool",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "arunachal_pradesh",
+    "name": "Arunachal Pradesh",
+    "type": "State",
+    "cities": [
+      {
+        "id": "itanagar",
+        "name": "Itanagar",
+        "district": "Papum Pare",
+        "tier": "Capital"
+      },
+      {
+        "id": "naharlagun",
+        "name": "Naharlagun",
+        "district": "Papum Pare",
+        "tier": "Commercial Town"
+      },
+      {
+        "id": "pasighat",
+        "name": "Pasighat",
+        "district": "East Siang",
+        "tier": "District HQ"
+      },
+      {
+        "id": "tawang",
+        "name": "Tawang",
+        "district": "Tawang",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "assam",
+    "name": "Assam",
+    "type": "State",
+    "cities": [
+      {
+        "id": "guwahati",
+        "name": "Guwahati",
+        "district": "Kamrup Metro",
+        "tier": "Metro"
+      },
+      {
+        "id": "silchar",
+        "name": "Silchar",
+        "district": "Cachar",
+        "tier": "Major City"
+      },
+      {
+        "id": "dibrugarh",
+        "name": "Dibrugarh",
+        "district": "Dibrugarh",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "jorhat",
+        "name": "Jorhat",
+        "district": "Jorhat",
+        "tier": "District HQ"
+      },
+      {
+        "id": "tezpur",
+        "name": "Tezpur",
+        "district": "Sonitpur",
+        "tier": "District HQ"
+      },
+      {
+        "id": "nagaon",
+        "name": "Nagaon",
+        "district": "Nagaon",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "bihar",
+    "name": "Bihar",
+    "type": "State",
+    "cities": [
+      {
+        "id": "patna",
+        "name": "Patna",
+        "district": "Patna",
+        "tier": "Metro / Capital"
+      },
+      {
+        "id": "gaya",
+        "name": "Gaya",
+        "district": "Gaya",
+        "tier": "Major City"
+      },
+      {
+        "id": "muzaffarpur",
+        "name": "Muzaffarpur",
+        "district": "Muzaffarpur",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "bhagalpur",
+        "name": "Bhagalpur",
+        "district": "Bhagalpur",
+        "tier": "Major City"
+      },
+      {
+        "id": "darbhanga",
+        "name": "Darbhanga",
+        "district": "Darbhanga",
+        "tier": "District HQ"
+      },
+      {
+        "id": "purnia",
+        "name": "Purnia",
+        "district": "Purnia",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "chhattisgarh",
+    "name": "Chhattisgarh",
+    "type": "State",
+    "cities": [
+      {
+        "id": "raipur",
+        "name": "Raipur",
+        "district": "Raipur",
+        "tier": "Metro / Capital"
+      },
+      {
+        "id": "bhilai",
+        "name": "Bhilai",
+        "district": "Durg",
+        "tier": "Industrial Hub"
+      },
+      {
+        "id": "bilaspur",
+        "name": "Bilaspur",
+        "district": "Bilaspur",
+        "tier": "Major City"
+      },
+      {
+        "id": "korba",
+        "name": "Korba",
+        "district": "Korba",
+        "tier": "Industrial Hub"
+      },
+      {
+        "id": "raigarh",
+        "name": "Raigarh",
+        "district": "Raigarh",
+        "tier": "District HQ"
+      },
+      {
+        "id": "jagdalpur",
+        "name": "Jagdalpur",
+        "district": "Bastar",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "goa",
+    "name": "Goa",
+    "type": "State",
+    "cities": [
+      {
+        "id": "panaji",
+        "name": "Panaji",
+        "district": "North Goa",
+        "tier": "Capital"
+      },
+      {
+        "id": "margao",
+        "name": "Margao",
+        "district": "South Goa",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "vasco_da_gama",
+        "name": "Vasco da Gama",
+        "district": "South Goa",
+        "tier": "Port City"
+      },
+      {
+        "id": "mapusa",
+        "name": "Mapusa",
+        "district": "North Goa",
+        "tier": "Commercial Town"
+      }
+    ]
+  },
+  {
+    "id": "gujarat",
+    "name": "Gujarat",
+    "type": "State",
+    "cities": [
+      {
+        "id": "ahmedabad",
+        "name": "Ahmedabad",
+        "district": "Ahmedabad",
+        "tier": "Metro"
+      },
+      {
+        "id": "surat",
+        "name": "Surat",
+        "district": "Surat",
+        "tier": "Metro"
+      },
+      {
+        "id": "vadodara",
+        "name": "Vadodara",
+        "district": "Vadodara",
+        "tier": "Major City"
+      },
+      {
+        "id": "rajkot",
+        "name": "Rajkot",
+        "district": "Rajkot",
+        "tier": "Major City"
+      },
+      {
+        "id": "gandhinagar",
+        "name": "Gandhinagar",
+        "district": "Gandhinagar",
+        "tier": "Capital"
+      },
+      {
+        "id": "bhavnagar",
+        "name": "Bhavnagar",
+        "district": "Bhavnagar",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "jamnagar",
+        "name": "Jamnagar",
+        "district": "Jamnagar",
+        "tier": "Industrial Hub"
+      }
+    ]
+  },
+  {
+    "id": "haryana",
+    "name": "Haryana",
+    "type": "State",
+    "cities": [
+      {
+        "id": "gurugram",
+        "name": "Gurugram",
+        "district": "Gurugram",
+        "tier": "Metro"
+      },
+      {
+        "id": "faridabad",
+        "name": "Faridabad",
+        "district": "Faridabad",
+        "tier": "Major City"
+      },
+      {
+        "id": "panipat",
+        "name": "Panipat",
+        "district": "Panipat",
+        "tier": "Industrial Hub"
+      },
+      {
+        "id": "ambala",
+        "name": "Ambala",
+        "district": "Ambala",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "karnal",
+        "name": "Karnal",
+        "district": "Karnal",
+        "tier": "District HQ"
+      },
+      {
+        "id": "hisar",
+        "name": "Hisar",
+        "district": "Hisar",
+        "tier": "District HQ"
+      },
+      {
+        "id": "rohtak",
+        "name": "Rohtak",
+        "district": "Rohtak",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "himachal_pradesh",
+    "name": "Himachal Pradesh",
+    "type": "State",
+    "cities": [
+      {
+        "id": "shimla",
+        "name": "Shimla",
+        "district": "Shimla",
+        "tier": "Capital"
+      },
+      {
+        "id": "dharamshala",
+        "name": "Dharamshala",
+        "district": "Kangra",
+        "tier": "District HQ"
+      },
+      {
+        "id": "solan",
+        "name": "Solan",
+        "district": "Solan",
+        "tier": "Industrial Hub"
+      },
+      {
+        "id": "mandi",
+        "name": "Mandi",
+        "district": "Mandi",
+        "tier": "District HQ"
+      },
+      {
+        "id": "manali",
+        "name": "Manali",
+        "district": "Kullu",
+        "tier": "Tourist Hub"
+      }
+    ]
+  },
+  {
+    "id": "jharkhand",
+    "name": "Jharkhand",
+    "type": "State",
+    "cities": [
+      {
+        "id": "ranchi",
+        "name": "Ranchi",
+        "district": "Ranchi",
+        "tier": "Metro / Capital"
+      },
+      {
+        "id": "jamshedpur",
+        "name": "Jamshedpur",
+        "district": "East Singhbhum",
+        "tier": "Industrial Hub"
+      },
+      {
+        "id": "dhanbad",
+        "name": "Dhanbad",
+        "district": "Dhanbad",
+        "tier": "Major City"
+      },
+      {
+        "id": "bokaro",
+        "name": "Bokaro Steel City",
+        "district": "Bokaro",
+        "tier": "Industrial Hub"
+      },
+      {
+        "id": "hazaribagh",
+        "name": "Hazaribagh",
+        "district": "Hazaribagh",
+        "tier": "District HQ"
+      },
+      {
+        "id": "deoghar_jh",
+        "name": "Deoghar",
+        "district": "Deoghar",
+        "tier": "Commercial Town"
+      }
+    ]
+  },
+  {
+    "id": "karnataka",
+    "name": "Karnataka",
+    "type": "State",
+    "cities": [
+      {
+        "id": "bengaluru",
+        "name": "Bengaluru",
+        "district": "Bengaluru Urban",
+        "tier": "Metro"
+      },
+      {
+        "id": "mysuru",
+        "name": "Mysuru",
+        "district": "Mysuru",
+        "tier": "Major City"
+      },
+      {
+        "id": "mangaluru",
+        "name": "Mangaluru",
+        "district": "Dakshina Kannada",
+        "tier": "Port City"
+      },
+      {
+        "id": "hubballi",
+        "name": "Hubballi-Dharwad",
+        "district": "Dharwad",
+        "tier": "Major City"
+      },
+      {
+        "id": "belagavi",
+        "name": "Belagavi",
+        "district": "Belagavi",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "kalaburagi",
+        "name": "Kalaburagi",
+        "district": "Kalaburagi",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "kerala",
+    "name": "Kerala",
+    "type": "State",
+    "cities": [
+      {
+        "id": "kochi",
+        "name": "Kochi",
+        "district": "Ernakulam",
+        "tier": "Metro"
+      },
+      {
+        "id": "thiruvananthapuram",
+        "name": "Thiruvananthapuram",
+        "district": "Thiruvananthapuram",
+        "tier": "Capital"
+      },
+      {
+        "id": "kozhikode",
+        "name": "Kozhikode",
+        "district": "Kozhikode",
+        "tier": "Major City"
+      },
+      {
+        "id": "thrissur",
+        "name": "Thrissur",
+        "district": "Thrissur",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "kollam",
+        "name": "Kollam",
+        "district": "Kollam",
+        "tier": "Port City"
+      },
+      {
+        "id": "kannur",
+        "name": "Kannur",
+        "district": "Kannur",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "madhya_pradesh",
+    "name": "Madhya Pradesh",
+    "type": "State",
+    "cities": [
+      {
+        "id": "indore",
+        "name": "Indore",
+        "district": "Indore",
+        "tier": "Metro"
+      },
+      {
+        "id": "bhopal",
+        "name": "Bhopal",
+        "district": "Bhopal",
+        "tier": "Capital"
+      },
+      {
+        "id": "jabalpur",
+        "name": "Jabalpur",
+        "district": "Jabalpur",
+        "tier": "Major City"
+      },
+      {
+        "id": "gwalior",
+        "name": "Gwalior",
+        "district": "Gwalior",
+        "tier": "Major City"
+      },
+      {
+        "id": "ujjain",
+        "name": "Ujjain",
+        "district": "Ujjain",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "rewa",
+        "name": "Rewa",
+        "district": "Rewa",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "maharashtra",
+    "name": "Maharashtra",
+    "type": "State",
+    "cities": [
+      {
+        "id": "mumbai",
+        "name": "Mumbai",
+        "district": "Mumbai",
+        "tier": "Metro"
+      },
+      {
+        "id": "pune",
+        "name": "Pune",
+        "district": "Pune",
+        "tier": "Metro"
+      },
+      {
+        "id": "nagpur",
+        "name": "Nagpur",
+        "district": "Nagpur",
+        "tier": "Major City"
+      },
+      {
+        "id": "nashik",
+        "name": "Nashik",
+        "district": "Nashik",
+        "tier": "Major City"
+      },
+      {
+        "id": "thane",
+        "name": "Thane",
+        "district": "Thane",
+        "tier": "Metro"
+      },
+      {
+        "id": "aurangabad",
+        "name": "Chhatrapati Sambhajinagar",
+        "district": "Aurangabad",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "kolhapur",
+        "name": "Kolhapur",
+        "district": "Kolhapur",
+        "tier": "Commercial Town"
+      }
+    ]
+  },
+  {
+    "id": "manipur",
+    "name": "Manipur",
+    "type": "State",
+    "cities": [
+      {
+        "id": "imphal",
+        "name": "Imphal",
+        "district": "Imphal West",
+        "tier": "Capital"
+      },
+      {
+        "id": "thoubal",
+        "name": "Thoubal",
+        "district": "Thoubal",
+        "tier": "District HQ"
+      },
+      {
+        "id": "churachandpur",
+        "name": "Churachandpur",
+        "district": "Churachandpur",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "meghalaya",
+    "name": "Meghalaya",
+    "type": "State",
+    "cities": [
+      {
+        "id": "shillong",
+        "name": "Shillong",
+        "district": "East Khasi Hills",
+        "tier": "Capital"
+      },
+      {
+        "id": "tura",
+        "name": "Tura",
+        "district": "West Garo Hills",
+        "tier": "District HQ"
+      },
+      {
+        "id": "jowai",
+        "name": "Jowai",
+        "district": "West Jaintia Hills",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "mizoram",
+    "name": "Mizoram",
+    "type": "State",
+    "cities": [
+      {
+        "id": "aizawl",
+        "name": "Aizawl",
+        "district": "Aizawl",
+        "tier": "Capital"
+      },
+      {
+        "id": "lunglei",
+        "name": "Lunglei",
+        "district": "Lunglei",
+        "tier": "District HQ"
+      },
+      {
+        "id": "champhai",
+        "name": "Champhai",
+        "district": "Champhai",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "nagaland",
+    "name": "Nagaland",
+    "type": "State",
+    "cities": [
+      {
+        "id": "dimapur",
+        "name": "Dimapur",
+        "district": "Dimapur",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "kohima",
+        "name": "Kohima",
+        "district": "Kohima",
+        "tier": "Capital"
+      },
+      {
+        "id": "mokokchung",
+        "name": "Mokokchung",
+        "district": "Mokokchung",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "punjab",
+    "name": "Punjab",
+    "type": "State",
+    "cities": [
+      {
+        "id": "ludhiana",
+        "name": "Ludhiana",
+        "district": "Ludhiana",
+        "tier": "Metro"
+      },
+      {
+        "id": "amritsar",
+        "name": "Amritsar",
+        "district": "Amritsar",
+        "tier": "Major City"
+      },
+      {
+        "id": "jalandhar",
+        "name": "Jalandhar",
+        "district": "Jalandhar",
+        "tier": "Major City"
+      },
+      {
+        "id": "patiala",
+        "name": "Patiala",
+        "district": "Patiala",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "mohali",
+        "name": "Mohali",
+        "district": "SAS Nagar",
+        "tier": "IT Hub"
+      },
+      {
+        "id": "bathinda",
+        "name": "Bathinda",
+        "district": "Bathinda",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "rajasthan",
+    "name": "Rajasthan",
+    "type": "State",
+    "cities": [
+      {
+        "id": "jaipur",
+        "name": "Jaipur",
+        "district": "Jaipur",
+        "tier": "Metro / Capital"
+      },
+      {
+        "id": "jodhpur",
+        "name": "Jodhpur",
+        "district": "Jodhpur",
+        "tier": "Major City"
+      },
+      {
+        "id": "udaipur",
+        "name": "Udaipur",
+        "district": "Udaipur",
+        "tier": "Tourist / Commercial"
+      },
+      {
+        "id": "kota",
+        "name": "Kota",
+        "district": "Kota",
+        "tier": "Education Hub"
+      },
+      {
+        "id": "ajmer",
+        "name": "Ajmer",
+        "district": "Ajmer",
+        "tier": "Major City"
+      },
+      {
+        "id": "bikaner",
+        "name": "Bikaner",
+        "district": "Bikaner",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "sikkim",
+    "name": "Sikkim",
+    "type": "State",
+    "cities": [
+      {
+        "id": "gangtok",
+        "name": "Gangtok",
+        "district": "Gangtok",
+        "tier": "Capital"
+      },
+      {
+        "id": "namchi",
+        "name": "Namchi",
+        "district": "Namchi",
+        "tier": "District HQ"
+      },
+      {
+        "id": "gyalshing",
+        "name": "Gyalshing",
+        "district": "Gyalshing",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "tamil_nadu",
+    "name": "Tamil Nadu",
+    "type": "State",
+    "cities": [
+      {
+        "id": "chennai",
+        "name": "Chennai",
+        "district": "Chennai",
+        "tier": "Metro"
+      },
+      {
+        "id": "coimbatore",
+        "name": "Coimbatore",
+        "district": "Coimbatore",
+        "tier": "Major City"
+      },
+      {
+        "id": "madurai",
+        "name": "Madurai",
+        "district": "Madurai",
+        "tier": "Major City"
+      },
+      {
+        "id": "tiruchirappalli",
+        "name": "Tiruchirappalli",
+        "district": "Tiruchirappalli",
+        "tier": "Major City"
+      },
+      {
+        "id": "salem",
+        "name": "Salem",
+        "district": "Salem",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "tiruppur",
+        "name": "Tiruppur",
+        "district": "Tiruppur",
+        "tier": "Industrial Hub"
+      }
+    ]
+  },
+  {
+    "id": "telangana",
+    "name": "Telangana",
+    "type": "State",
+    "cities": [
+      {
+        "id": "hyderabad",
+        "name": "Hyderabad",
+        "district": "Hyderabad",
+        "tier": "Metro"
+      },
+      {
+        "id": "warangal",
+        "name": "Warangal",
+        "district": "Warangal",
+        "tier": "Major City"
+      },
+      {
+        "id": "nizamabad",
+        "name": "Nizamabad",
+        "district": "Nizamabad",
+        "tier": "District HQ"
+      },
+      {
+        "id": "karimnagar",
+        "name": "Karimnagar",
+        "district": "Karimnagar",
+        "tier": "District HQ"
+      },
+      {
+        "id": "khammam",
+        "name": "Khammam",
+        "district": "Khammam",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "tripura",
+    "name": "Tripura",
+    "type": "State",
+    "cities": [
+      {
+        "id": "agartala",
+        "name": "Agartala",
+        "district": "West Tripura",
+        "tier": "Capital"
+      },
+      {
+        "id": "udaipur_tr",
+        "name": "Udaipur (Tripura)",
+        "district": "Gomati",
+        "tier": "District HQ"
+      },
+      {
+        "id": "dharmanagar",
+        "name": "Dharmanagar",
+        "district": "North Tripura",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "uttar_pradesh",
+    "name": "Uttar Pradesh",
+    "type": "State",
+    "cities": [
+      {
+        "id": "lucknow",
+        "name": "Lucknow",
+        "district": "Lucknow",
+        "tier": "Metro / Capital"
+      },
+      {
+        "id": "noida",
+        "name": "Noida",
+        "district": "Gautam Buddha Nagar",
+        "tier": "Metro"
+      },
+      {
+        "id": "kanpur",
+        "name": "Kanpur",
+        "district": "Kanpur Nagar",
+        "tier": "Major City"
+      },
+      {
+        "id": "varanasi",
+        "name": "Varanasi",
+        "district": "Varanasi",
+        "tier": "Major City"
+      },
+      {
+        "id": "agra",
+        "name": "Agra",
+        "district": "Agra",
+        "tier": "Major City"
+      },
+      {
+        "id": "prayagraj",
+        "name": "Prayagraj",
+        "district": "Prayagraj",
+        "tier": "Major City"
+      },
+      {
+        "id": "ghaziabad",
+        "name": "Ghaziabad",
+        "district": "Ghaziabad",
+        "tier": "Metro"
+      },
+      {
+        "id": "meerut",
+        "name": "Meerut",
+        "district": "Meerut",
+        "tier": "Commercial Hub"
+      }
+    ]
+  },
+  {
+    "id": "uttarakhand",
+    "name": "Uttarakhand",
+    "type": "State",
+    "cities": [
+      {
+        "id": "dehradun",
+        "name": "Dehradun",
+        "district": "Dehradun",
+        "tier": "Capital"
+      },
+      {
+        "id": "haridwar",
+        "name": "Haridwar",
+        "district": "Haridwar",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "haldwani",
+        "name": "Haldwani",
+        "district": "Nainital",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "roorkee",
+        "name": "Roorkee",
+        "district": "Haridwar",
+        "tier": "Education Hub"
+      },
+      {
+        "id": "rishikesh",
+        "name": "Rishikesh",
+        "district": "Dehradun",
+        "tier": "Tourist Hub"
+      }
+    ]
+  },
+  {
+    "id": "west_bengal",
+    "name": "West Bengal",
+    "type": "State",
+    "cities": [
+      {
+        "id": "kolkata",
+        "name": "Kolkata",
+        "district": "Kolkata",
+        "tier": "Metro"
+      },
+      {
+        "id": "siliguri",
+        "name": "Siliguri",
+        "district": "Darjeeling",
+        "tier": "Commercial Hub"
+      },
+      {
+        "id": "durgapur",
+        "name": "Durgapur",
+        "district": "Paschim Bardhaman",
+        "tier": "Industrial Hub"
+      },
+      {
+        "id": "asansol",
+        "name": "Asansol",
+        "district": "Paschim Bardhaman",
+        "tier": "Major City"
+      },
+      {
+        "id": "howrah",
+        "name": "Howrah",
+        "district": "Howrah",
+        "tier": "Metro"
+      },
+      {
+        "id": "kharagpur",
+        "name": "Kharagpur",
+        "district": "Paschim Medinipur",
+        "tier": "Commercial Town"
+      }
+    ]
+  },
+  {
+    "id": "andaman_nicobar",
+    "name": "Andaman & Nicobar Islands",
+    "type": "Union Territory",
+    "cities": [
+      {
+        "id": "port_blair",
+        "name": "Sri Vijaya Puram (Port Blair)",
+        "district": "South Andaman",
+        "tier": "Capital"
+      }
+    ]
+  },
+  {
+    "id": "chandigarh",
+    "name": "Chandigarh",
+    "type": "Union Territory",
+    "cities": [
+      {
+        "id": "chandigarh_city",
+        "name": "Chandigarh",
+        "district": "Chandigarh",
+        "tier": "Capital"
+      }
+    ]
+  },
+  {
+    "id": "dadra_nagar_haveli_daman_diu",
+    "name": "Dadra & Nagar Haveli and Daman & Diu",
+    "type": "Union Territory",
+    "cities": [
+      {
+        "id": "silvassa",
+        "name": "Silvassa",
+        "district": "Dadra & Nagar Haveli",
+        "tier": "Industrial Hub"
+      },
+      {
+        "id": "daman",
+        "name": "Daman",
+        "district": "Daman",
+        "tier": "Capital"
+      }
+    ]
+  },
+  {
+    "id": "delhi",
+    "name": "Delhi (NCT)",
+    "type": "Union Territory",
+    "cities": [
+      {
+        "id": "new_delhi",
+        "name": "New Delhi",
+        "district": "New Delhi",
+        "tier": "Metro / Capital"
+      },
+      {
+        "id": "south_delhi",
+        "name": "South Delhi",
+        "district": "South Delhi",
+        "tier": "Metro"
+      },
+      {
+        "id": "north_delhi",
+        "name": "North Delhi",
+        "district": "North Delhi",
+        "tier": "Metro"
+      },
+      {
+        "id": "east_delhi",
+        "name": "East Delhi",
+        "district": "East Delhi",
+        "tier": "Metro"
+      },
+      {
+        "id": "west_delhi",
+        "name": "West Delhi",
+        "district": "West Delhi",
+        "tier": "Metro"
+      }
+    ]
+  },
+  {
+    "id": "jammu_kashmir",
+    "name": "Jammu & Kashmir",
+    "type": "Union Territory",
+    "cities": [
+      {
+        "id": "srinagar",
+        "name": "Srinagar",
+        "district": "Srinagar",
+        "tier": "Capital"
+      },
+      {
+        "id": "jammu",
+        "name": "Jammu",
+        "district": "Jammu",
+        "tier": "Major City"
+      },
+      {
+        "id": "anantnag",
+        "name": "Anantnag",
+        "district": "Anantnag",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "ladakh",
+    "name": "Ladakh",
+    "type": "Union Territory",
+    "cities": [
+      {
+        "id": "leh",
+        "name": "Leh",
+        "district": "Leh",
+        "tier": "Capital"
+      },
+      {
+        "id": "kargil",
+        "name": "Kargil",
+        "district": "Kargil",
+        "tier": "District HQ"
+      }
+    ]
+  },
+  {
+    "id": "lakshadweep",
+    "name": "Lakshadweep",
+    "type": "Union Territory",
+    "cities": [
+      {
+        "id": "kavaratti",
+        "name": "Kavaratti",
+        "district": "Lakshadweep",
+        "tier": "Capital"
+      }
+    ]
+  },
+  {
+    "id": "puducherry",
+    "name": "Puducherry",
+    "type": "Union Territory",
+    "cities": [
+      {
+        "id": "puducherry_city",
+        "name": "Puducherry",
+        "district": "Puducherry",
+        "tier": "Capital"
+      },
+      {
+        "id": "karaikal",
+        "name": "Karaikal",
+        "district": "Karaikal",
+        "tier": "District HQ"
+      }
+    ]
+  }
+]

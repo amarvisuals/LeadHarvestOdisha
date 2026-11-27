@@ -1,11 +1,25 @@
 from abc import ABC, abstractmethod
-from typing import List, Dict, Any, Callable, Awaitable, Optional, Tuple
+from typing import List, Dict, Any, Callable, Awaitable, Tuple
+
 
 class BaseSourceAdapter(ABC):
     """Abstract base class for all pluggable business lead data sources."""
 
     def __init__(self, name: str):
         self.name = name
+
+    def capabilities(self) -> Dict[str, bool]:
+        """Declares which Smart Lead Filter fields this source adapter supports."""
+        return {
+            "has_website": True,
+            "mobile": True,
+            "email": False,
+            "rating": True,
+            "reviews": True,
+            "verified": False,
+            "social_only": False,
+            "exclude_chains": True,
+        }
 
     @abstractmethod
     async def collect(
@@ -15,12 +29,11 @@ class BaseSourceAdapter(ABC):
         max_scrolls: int,
         on_listing_collected: Callable[[Dict[str, Any]], Awaitable[None]],
         on_progress_update: Callable[[str, str], Awaitable[None]],
-        check_pause_cancel: Callable[[], Awaitable[Tuple[bool, bool]]], # returns (is_paused, is_cancelled)
-        wait_for_resume: Callable[[], Awaitable[None]]
+        check_pause_cancel: Callable[[], Awaitable[Tuple[bool, bool]]],
+        wait_for_resume: Callable[[], Awaitable[None]],
+        state: str = "Odisha",
     ) -> List[Dict[str, Any]]:
-        """
-        Executes search and returns collected raw listing dictionaries.
-        """
+        """Executes search and returns collected raw listing dictionaries."""
         pass
 
     @abstractmethod

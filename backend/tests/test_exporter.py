@@ -56,10 +56,15 @@ def test_generate_leads_excel_structure(tmp_path: Path):
     assert "Skipped Duplicates" in wb.sheetnames
 
     ws_leads = wb["Leads"]
-    assert ws_leads.cell(row=1, column=1).value == "Business Name"
+    headers = [ws_leads.cell(row=1, column=c).value for c in range(1, ws_leads.max_column + 1)]
+    assert headers[0] == "Business Name"
+    assert "Has Website" in headers
+    assert "Opportunity Score" in headers
+    assert "WhatsApp Link" in headers
     assert ws_leads.cell(row=2, column=1).value == "Utkal Digital Solutions"
-    # Check hyperlink
-    website_cell = ws_leads.cell(row=2, column=12)
+    # Check hyperlink on Website column dynamically
+    website_col = headers.index("Website") + 1
+    website_cell = ws_leads.cell(row=2, column=website_col)
     assert website_cell.hyperlink is not None
 
     ws_summary = wb["Summary"]
