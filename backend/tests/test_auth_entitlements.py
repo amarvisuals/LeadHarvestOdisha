@@ -29,6 +29,25 @@ async def test_guest_entitlements_and_4_run_limit():
         db.add(guest)
         await db.commit()
 
+        # When guest_free_tries is 0 (testing mode), unlimited runs are allowed
+        from sqlalchemy.future import select
+        from app.models.entities import AppSetting
+        setting_res = await db.execute(select(AppSetting).where(AppSetting.key == "guest_free_tries"))
+        setting = setting_res.scalar_one_or_none()
+        orig_val = setting.value if setting else "0"
+        if setting:
+            setting.value = "0"
+            await db.commit()
+
+        guest.runs_used = 10
+        allowed, _, _ = await can_user_do(db, guest, "start_run", {"states": ["Odisha"]})
+        assert allowed is True
+
+        # Enable 4-run limit and verify enforcement
+        if setting:
+            setting.value = "4"
+            await db.commit()
+
         # Run 1-4 allowed for Odisha without advanced filters
         for i in range(4):
             guest.runs_used = i
@@ -47,11 +66,15 @@ async def test_guest_entitlements_and_4_run_limit():
         assert allowed is False
         assert hint["action"] == "upgrade"
 
-        # 5th run blocked
+        # 5th run blocked when limit is 4
         guest.runs_used = 4
         allowed, msg, hint = await can_user_do(db, guest, "start_run", {"states": ["Odisha"]})
         assert allowed is False
         assert hint["action"] == "guest_limit"
+
+        if setting:
+            setting.value = orig_val
+            await db.commit()
 
 
 @pytest.mark.asyncio

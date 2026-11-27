@@ -28,7 +28,8 @@ export interface AuthState {
   guest?: {
     runs_used: number;
     max_tries: number;
-    remaining_tries: number;
+    remaining_tries: number | null;
+    unlimited?: boolean;
   };
 }
 
@@ -172,7 +173,7 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex items-center space-x-2 pl-2 border-l border-slate-200 ml-1">
-                {auth?.guest && (
+                {auth?.guest && !auth.guest.unlimited && auth.guest.max_tries > 0 && (
                   <span className="hidden lg:inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
                     {auth.guest.remaining_tries} of {auth.guest.max_tries} free tries left
                   </span>

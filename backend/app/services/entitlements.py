@@ -105,7 +105,7 @@ DEFAULT_FLAGS = [
 ]
 
 DEFAULT_SETTINGS = [
-    ("guest_free_tries", "4", "Number of free runs allowed per guest visitor before signup gate"),
+    ("guest_free_tries", "0", "Number of free runs allowed per guest visitor before signup gate (0 = unlimited / testing)"),
     ("refund_guarantee_text", "7-day no-questions-asked money-back guarantee on all paid plans.", "Pricing page refund note"),
     ("announcement_banner", "", "Optional site-wide announcement banner text"),
     ("support_email", "support@leadharvest.in", "Public support email address"),
@@ -275,7 +275,7 @@ async def can_user_do(
 
         max_tries = int(await get_setting(db, "guest_free_tries", str(settings.GUEST_FREE_TRIES_DEFAULT)))
         if action == "start_run":
-            if actor.runs_used >= max_tries:
+            if max_tries > 0 and actor.runs_used >= max_tries:
                 return (
                     False,
                     f"You have used all {max_tries} free guest tries. Create a free account to keep collecting and unlock saved history!",

@@ -71,8 +71,8 @@ class Settings(BaseSettings):
     # Matching thresholds
     FUZZY_MATCH_THRESHOLD: int = 90
 
-    # Guest & SaaS defaults
-    GUEST_FREE_TRIES_DEFAULT: int = 4
+    # Guest & SaaS defaults (0 = unlimited guest runs during testing phase)
+    GUEST_FREE_TRIES_DEFAULT: int = 0
 
     model_config = {"env_prefix": "LEADHARVEST_", "extra": "ignore"}
 

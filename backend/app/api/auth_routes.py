@@ -245,14 +245,16 @@ async def get_me(
     """Returns either the authenticated user's profile + plan + usage, or guest trial status."""
     if not user:
         guest = await get_or_create_guest(request, response, db)
-        max_tries = int(await get_setting(db, "guest_free_tries", "4"))
+        max_tries = int(await get_setting(db, "guest_free_tries", "0"))
+        unlimited = max_tries <= 0
         return {
             "authenticated": False,
             "guest": {
                 "id": guest.id,
                 "runs_used": guest.runs_used,
                 "max_tries": max_tries,
-                "remaining_tries": max(0, max_tries - guest.runs_used),
+                "remaining_tries": None if unlimited else max(0, max_tries - guest.runs_used),
+                "unlimited": unlimited,
             },
         }
 
