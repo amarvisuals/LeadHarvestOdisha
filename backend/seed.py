@@ -168,7 +168,10 @@ async def seed_demo_data():
             target_id="initial",
         ))
         await db.commit()
-        print("Seeded admin (admin@leadharvest.in / Admin@LeadHarvest2026!), 3 test users, demo runs, and WELCOME20 coupon.")
+
+        from app.services.hot_leads_seed import seed_30_hot_leads
+        hl_count = await seed_30_hot_leads(db)
+        print(f"Seeded admin (admin@leadharvest.in / Admin@LeadHarvest2026!), 3 test users, demo runs, WELCOME20 coupon, and {hl_count} demo Hot Leads.")
 
 
 if __name__ == "__main__":

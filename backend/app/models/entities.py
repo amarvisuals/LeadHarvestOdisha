@@ -437,3 +437,115 @@ class SiteAuditRun(Base):
     pages_scanned = Column(Integer, default=0)
     issues_json = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+# ---------------------------------------------------------------------------
+# Hot Leads CRM & Buying-Signal Pipeline
+# ---------------------------------------------------------------------------
+class HotLead(Base):
+    __tablename__ = "hot_leads"
+
+    id = Column(String(64), primary_key=True)
+    source_type = Column(String(32), index=True, nullable=False)  # inbound | public_request | signal
+    source_name = Column(String(100), index=True, nullable=False)  # website_quote_form | whatsapp_cta | google_ads_webhook | csv_import | rss_feed | leadharvest_signal
+    source_url = Column(String(500), nullable=True)
+    terms_note = Column(String(500), nullable=True)
+
+    name = Column(String(150), nullable=True)
+    business_name = Column(String(255), index=True, nullable=False)
+    phone = Column(String(50), nullable=True)
+    phone_clean = Column(String(20), index=True, nullable=True)
+    email = Column(String(255), index=True, nullable=True)
+    business_type = Column(String(150), index=True, nullable=True)
+    city = Column(String(100), index=True, nullable=True)
+    state = Column(String(100), index=True, nullable=True)
+    website = Column(String(500), nullable=True)
+    budget_range = Column(String(100), nullable=True)
+    timeline = Column(String(100), nullable=True)
+    notes_summary = Column(Text, nullable=True)
+
+    # UTM & Attribution
+    utm_source = Column(String(100), nullable=True)
+    utm_medium = Column(String(100), nullable=True)
+    utm_campaign = Column(String(150), nullable=True)
+    utm_term = Column(String(150), nullable=True)
+    utm_content = Column(String(150), nullable=True)
+    landing_page = Column(String(300), nullable=True)
+
+    # Scoring & Signals
+    score = Column(Integer, default=0, index=True, nullable=False)
+    temperature = Column(String(16), default="Cold", index=True, nullable=False)  # Hot | Warm | Cold
+    score_breakdown_json = Column(Text, nullable=True)
+    signals_json = Column(Text, nullable=True)
+    website_health_json = Column(Text, nullable=True)
+    rating = Column(Float, nullable=True)
+    review_count = Column(Integer, nullable=True)
+
+    # Pipeline & Reminders
+    stage = Column(String(32), default="New", index=True, nullable=False)  # New | Contacted | Meeting booked | Proposal sent | Negotiation | Won | Lost
+    deal_value_inr = Column(Integer, default=0, nullable=False)
+    expected_close_date = Column(DateTime, nullable=True)
+    lost_reason = Column(String(255), nullable=True)
+    owner_name = Column(String(120), default="Amar (Owner)", nullable=False)
+    next_followup_at = Column(DateTime, nullable=True, index=True)
+    first_contacted_at = Column(DateTime, nullable=True)
+
+    # Compliance & Safety
+    consent_given = Column(Boolean, default=False, nullable=False)
+    consent_record = Column(Text, nullable=True)
+    do_not_contact = Column(Boolean, default=False, index=True, nullable=False)
+    dnc_reason = Column(String(255), nullable=True)
+
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class HotLeadActivity(Base):
+    __tablename__ = "hot_lead_activities"
+
+    id = Column(String(64), primary_key=True)
+    lead_id = Column(String(64), ForeignKey("hot_leads.id", ondelete="CASCADE"), index=True, nullable=False)
+    activity_type = Column(String(32), nullable=False)  # note | task | stage_change | health_check | email | whatsapp | proposal | system
+    title = Column(String(255), nullable=False)
+    body = Column(Text, nullable=True)
+    due_at = Column(DateTime, nullable=True, index=True)
+    completed = Column(Boolean, default=False, nullable=False)
+    actor_email = Column(String(255), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+
+class HotLeadAttachment(Base):
+    __tablename__ = "hot_lead_attachments"
+
+    id = Column(String(64), primary_key=True)
+    lead_id = Column(String(64), ForeignKey("hot_leads.id", ondelete="CASCADE"), index=True, nullable=False)
+    filename = Column(String(255), nullable=False)
+    file_path = Column(String(500), nullable=False)
+    mime_type = Column(String(100), nullable=True)
+    size_bytes = Column(Integer, default=0, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class IntentSourceConfig(Base):
+    __tablename__ = "intent_sources"
+
+    id = Column(String(64), primary_key=True)
+    name = Column(String(150), nullable=False)
+    source_kind = Column(String(32), nullable=False)  # rss | official_api | email_alert | manual
+    endpoint_or_query = Column(String(500), nullable=True)
+    terms_note = Column(String(500), nullable=False)
+    is_active = Column(Boolean, default=True, nullable=False)
+    last_synced_at = Column(DateTime, nullable=True)
+    leads_imported = Column(Integer, default=0, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class DoNotContactEntry(Base):
+    __tablename__ = "do_not_contact_list"
+
+    id = Column(String(64), primary_key=True)
+    phone_clean = Column(String(20), index=True, nullable=True)
+    email = Column(String(255), index=True, nullable=True)
+    reason = Column(String(255), nullable=False)
+    source = Column(String(64), default="admin", nullable=False)  # opt_out | dnd | admin
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)

@@ -397,6 +397,14 @@ class JobRunnerService:
             if session.remember_leads and session.collected_leads:
                 await self._persist_new_leads_to_known_records(session)
 
+            if session.collected_leads:
+                try:
+                    from app.services.hot_leads import ingest_signal_leads_from_job
+                    async with AsyncSessionLocal() as hl_db:
+                        await ingest_signal_leads_from_job(hl_db, session.collected_leads, session.filters)
+                except Exception as hl_err:
+                    logger.warning(f"Hot lead signal ingestion skipped: {hl_err}")
+
             session.completed_at = datetime.utcnow()
             session.progress_pct = 100.0
             if session.is_cancelled:

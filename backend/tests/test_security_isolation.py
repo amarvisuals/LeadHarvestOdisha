@@ -16,7 +16,8 @@ async def test_e2e_saas_funnel_and_tenant_isolation():
     transport = ASGITransport(app=app)
 
     # Unique IP header per test so guest counters are isolated
-    guest_headers = {"X-Forwarded-For": f"10.0.1.{uuid.uuid4().int % 200 + 10}", "User-Agent": "TestBrowser/1.0"}
+    r_int = uuid.uuid4().int
+    guest_headers = {"X-Forwarded-For": f"10.{(r_int >> 16) % 250}.{(r_int >> 8) % 250}.{r_int % 200 + 10}", "User-Agent": f"TestBrowser/{uuid.uuid4().hex[:6]}"}
 
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         # 1. Guest runs 4 times -> succeeds; 5th attempt hits gate

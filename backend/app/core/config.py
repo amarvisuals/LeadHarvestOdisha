@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     UPLOADS_DIR: Path = DATA_DIR / "uploads"
     EXPORTS_DIR: Path = DATA_DIR / "exports"
     INVOICES_DIR: Path = DATA_DIR / "invoices"
+    PROPOSALS_DIR: Path = DATA_DIR / "proposals"
+    ATTACHMENTS_DIR: Path = DATA_DIR / "attachments"
 
     # Database (PostgreSQL in production/Docker, SQLite for local dev/testing)
     DATABASE_URL: str = f"sqlite+aiosqlite:///{DATA_DIR / 'leadharvest.db'}"
@@ -45,6 +47,8 @@ class Settings(BaseSettings):
     RAZORPAY_KEY_ID: str = ""
     RAZORPAY_KEY_SECRET: str = ""
     RAZORPAY_WEBHOOK_SECRET: str = "dev-webhook-secret"
+    GOOGLE_ADS_WEBHOOK_SECRET: str = "dev-google-ads-key"
+    OWNER_WHATSAPP_NUMBER: str = "919861000001"
     PAYMENT_MODE: str = "simulated"  # simulated | razorpay
 
     # Email (SMTP / Resend / console fallback)

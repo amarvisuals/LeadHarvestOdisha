@@ -10,6 +10,7 @@ from app.api.billing_routes import router as billing_router
 from app.api.analytics_routes import router as analytics_router
 from app.api.admin_routes import router as admin_router
 from app.api.seo_blog_routes import router as seo_blog_router
+from app.api.hot_leads_routes import router as hot_leads_router
 
 logger = setup_logging(debug=settings.DEBUG)
 
@@ -54,6 +55,7 @@ app.include_router(billing_router)
 app.include_router(analytics_router)
 app.include_router(admin_router)
 app.include_router(seo_blog_router)
+app.include_router(hot_leads_router)
 
 
 @app.get("/")

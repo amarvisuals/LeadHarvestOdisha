@@ -1,21 +1,24 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   LayoutDashboard, Users, PlayCircle, CreditCard, Wrench,
-  Download, Eye, RefreshCw, CheckCircle2, AlertCircle, Search
+  Download, Eye, RefreshCw, CheckCircle2, AlertCircle, Search, Flame
 } from "lucide-react";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, AreaChart, Area, CartesianGrid
 } from "recharts";
 import { apiFetch } from "@/lib/api";
+import HotLeadsSection from "@/components/HotLeadsSection";
 
-type AdminTab = "dashboard" | "users" | "runs" | "plans" | "seo" | "testing";
+type AdminTab = "dashboard" | "hot_leads" | "users" | "runs" | "plans" | "seo" | "testing";
 
 export default function AdminPanelPage() {
   const [tab, setTab] = useState<AdminTab>("dashboard");
   const [days, setDays] = useState(30);
   const [dash, setDash] = useState<any>(null);
+  const [hotStats, setHotStats] = useState<any>(null);
   const [usersData, setUsersData] = useState<any[]>([]);
   const [userSearch, setUserSearch] = useState("");
   const [runs, setRuns] = useState<any[]>([]);
@@ -55,12 +58,16 @@ export default function AdminPanelPage() {
   };
 
   async function loadDashboard() {
-    const res = await apiFetch(`/api/admin/dashboard?days=${days}`);
+    const [res, hRes] = await Promise.all([
+      apiFetch(`/api/admin/dashboard?days=${days}`),
+      apiFetch("/api/admin/hot-leads/stats"),
+    ]);
     if (res.status === 401 || res.status === 403) {
       setAuthError(true);
       return;
     }
     if (res.ok) setDash(await res.json());
+    if (hRes.ok) setHotStats(await hRes.json());
   }
 
   async function loadUsers() {
@@ -138,6 +145,7 @@ export default function AdminPanelPage() {
 
   const navItems: Array<{ id: AdminTab; label: string; icon: any }> = [
     { id: "dashboard", label: "Dashboard & Funnel", icon: LayoutDashboard },
+    { id: "hot_leads", label: "Hot Leads", icon: Flame },
     { id: "users", label: "Users & Contacts", icon: Users },
     { id: "runs", label: "Runs & Insights", icon: PlayCircle },
     { id: "plans", label: "Plans & Coupons", icon: CreditCard },
@@ -216,6 +224,51 @@ export default function AdminPanelPage() {
               </div>
             </div>
 
+            {/* Today's Focus Card (Hot Leads Follow-Ups) */}
+            {hotStats && (
+              <div className="bg-white p-5 rounded-2xl border border-rose-200 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center space-x-2">
+                    <Flame className="w-4 h-4 text-rose-600" />
+                    <h2 className="text-sm font-black text-slate-900">
+                      Today&apos;s Focus: {hotStats.todays_focus?.length || 0} Follow-Ups Due
+                    </h2>
+                    {hotStats.overdue_followups > 0 && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-700">
+                        {hotStats.overdue_followups} overdue
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setTab("hot_leads")}
+                    className="text-xs font-bold text-brand-700 hover:underline"
+                  >
+                    Open Hot Leads Pipeline →
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
+                  {(hotStats.todays_focus || []).slice(0, 6).map((hl: any) => (
+                    <Link
+                      key={hl.id}
+                      href={`/admin/hot-leads/${hl.id}`}
+                      className="p-3 rounded-xl bg-slate-50 hover:bg-rose-50/40 border border-slate-200 flex items-center justify-between"
+                    >
+                      <div className="min-w-0 pr-2">
+                        <p className="font-bold text-slate-900 truncate">{hl.business_name}</p>
+                        <p className="text-[11px] text-slate-500 truncate">{hl.city || "India"} · {hl.stage}</p>
+                      </div>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-100 text-rose-700 shrink-0">
+                        {hl.score}
+                      </span>
+                    </Link>
+                  ))}
+                  {(!hotStats.todays_focus || hotStats.todays_focus.length === 0) && (
+                    <p className="text-xs text-slate-400">No follow-ups due today. Check Hot Leads for new inquiries.</p>
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
                 <h2 className="text-xs font-bold uppercase text-slate-500">Conversion Funnel</h2>
@@ -271,6 +324,9 @@ export default function AdminPanelPage() {
             </div>
           </div>
         )}
+
+        {/* TAB: HOT LEADS */}
+        {tab === "hot_leads" && <HotLeadsSection onNotify={notify} />}
 
         {/* TAB 2: USERS & CONTACT EXPORT */}
         {tab === "users" && (

@@ -125,6 +125,10 @@ def matches_smart_filters(lead: Dict[str, Any], filters: Optional[Dict[str, Any]
         return False, "Has website"
     if filters.get("has_website") and not lead.get("has_website"):
         return False, "No website"
+    if filters.get("no_https") and str(lead.get("website") or "").strip().startswith("https://"):
+        return False, "Already uses HTTPS"
+    if filters.get("advertising_without_website") and (lead.get("has_website") or not lead.get("is_verified_listing")):
+        return False, "Not advertising without website"
     if filters.get("mobile_only") and not lead.get("mobile_available"):
         return False, "No mobile number"
     if filters.get("has_email") and not lead.get("email"):
