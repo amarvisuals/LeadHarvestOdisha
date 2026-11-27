@@ -7,7 +7,7 @@ from sqlalchemy.future import select
 from sqlalchemy import func
 
 from app.models.entities import (
-    User, Guest, Plan, Subscription, Job, FeatureFlag, AppSetting
+    User, Guest, Plan, Subscription, Job, FeatureFlag, AppSetting, UserExtraState
 )
 from app.core.config import settings
 
@@ -15,7 +15,7 @@ DEFAULT_PLANS = [
     {
         "id": "free",
         "name": "Free",
-        "description": "Odisha-only starter access with saved history and automatic deduplication.",
+        "description": "Free access to your Home State with saved history and automatic deduplication.",
         "price_monthly_inr": 0,
         "price_yearly_inr": 0,
         "max_states": 1,
@@ -36,7 +36,7 @@ DEFAULT_PLANS = [
     {
         "id": "starter",
         "name": "Starter",
-        "description": "Ideal for freelancers and local web designers pitching across 3 states.",
+        "description": "Home State + 2 additional states of your choice, 2,000 leads/month, and core Smart Filters.",
         "price_monthly_inr": 499,
         "price_yearly_inr": 4990,  # 2 months free
         "max_states": 3,
@@ -110,6 +110,11 @@ DEFAULT_SETTINGS = [
     ("refund_guarantee_text", "7-day no-questions-asked money-back guarantee on all paid plans.", "Pricing page refund note"),
     ("announcement_banner", "", "Optional site-wide announcement banner text"),
     ("support_email", "support@leadharvest.in", "Public support email address"),
+    ("geoip_provider", "local", "GeoIP provider: local | maxmind"),
+    ("geoip_db_path", "", "Optional path to MaxMind GeoLite2-City.mmdb"),
+    ("vpn_handling_mode", "ask_user", "VPN/Proxy handling: ask_user | block"),
+    ("state_change_cooldown_days", "90", "Days required between Home State change requests"),
+    ("starter_extra_states_count", "2", "Number of additional states Starter plan users can choose beyond Home State"),
 ]
 
 
@@ -253,6 +258,74 @@ def _has_advanced_filters(filters: Optional[Dict[str, Any]]) -> Tuple[bool, bool
     return (basic_adv or pro_only), pro_only
 
 
+async def get_allowed_states_for_actor(
+    db: AsyncSession,
+    actor: Union[User, Guest, None],
+) -> Dict[str, Any]:
+    """
+    Computes allowed states for any actor:
+      Allowed states = Home State (free) + active UserExtraState + all states if all-India plan.
+    """
+    from app.services.geoip import get_canonical_states
+
+    all_states = get_canonical_states()
+    if isinstance(actor, Guest):
+        home = actor.home_state
+        return {
+            "all_india": False,
+            "home_state": home,
+            "extra_states": [],
+            "allowed_states": [home] if home else [],
+            "max_extra_slots": 0,
+        }
+
+    if not isinstance(actor, User):
+        return {"all_india": False, "home_state": None, "extra_states": [], "allowed_states": [], "max_extra_slots": 0}
+
+    if actor.role == "admin":
+        return {"all_india": True, "home_state": actor.home_state or "Odisha", "extra_states": [], "allowed_states": all_states, "max_extra_slots": 36}
+
+    plan, _ = await get_user_effective_plan(db, actor)
+    if plan.max_states >= 36:
+        return {"all_india": True, "home_state": actor.home_state or "Odisha", "extra_states": [], "allowed_states": all_states, "max_extra_slots": 36}
+
+    home = actor.home_state
+    now = datetime.utcnow()
+    res = await db.execute(
+        select(UserExtraState).where(UserExtraState.user_id == actor.id)
+    )
+    extra_rows = [
+        r for r in res.scalars().all()
+        if r.expires_at is None or r.expires_at > now
+    ]
+    starter_slots = int(await get_setting(db, "starter_extra_states_count", "2")) if plan.max_states > 1 else 0
+    # Admin grants are always honored even on free tier; starter choices capped at starter_slots
+    extra_names: list[str] = []
+    starter_used = 0
+    for r in extra_rows:
+        if r.granted_by == "admin_grant":
+            if r.state_name not in extra_names:
+                extra_names.append(r.state_name)
+        elif starter_used < starter_slots and r.state_name not in extra_names:
+            extra_names.append(r.state_name)
+            starter_used += 1
+
+    allowed = []
+    if home:
+        allowed.append(home)
+    for st in extra_names:
+        if st not in allowed:
+            allowed.append(st)
+
+    return {
+        "all_india": False,
+        "home_state": home,
+        "extra_states": extra_names,
+        "allowed_states": allowed,
+        "max_extra_slots": starter_slots,
+    }
+
+
 async def can_user_do(
     db: AsyncSession,
     actor: Union[User, Guest, None] = None,
@@ -286,12 +359,28 @@ async def can_user_do(
                     {"action": "guest_limit", "runs_used": actor.runs_used, "max_tries": max_tries},
                 )
 
-            states = params.get("states") or ["Odisha"]
-            if any(s.lower() != "odisha" for s in states):
+            state_info = await get_allowed_states_for_actor(db, actor)
+            if not state_info["home_state"]:
                 return (
                     False,
-                    "Guest trials are limited to Odisha. Create a free or paid account to search other Indian states.",
-                    {"action": "upgrade", "required_plan": "starter"},
+                    "Please select your Home State before starting a run.",
+                    {"action": "choose_state"},
+                )
+
+            states = params.get("states") or [state_info["home_state"]]
+            allowed_lower = {s.lower() for s in state_info["allowed_states"]}
+            locked_states = [s for s in states if s.lower() not in allowed_lower]
+            if locked_states:
+                return (
+                    False,
+                    f"Your free Home State is {state_info['home_state']}. {', '.join(locked_states)} requires a paid plan.",
+                    {
+                        "action": "upgrade",
+                        "error_code": "upgrade_required",
+                        "home_state": state_info["home_state"],
+                        "locked_states": locked_states,
+                        "required_plan": "starter",
+                    },
                 )
 
             _, pro_only = _has_advanced_filters(params.get("filters"))
@@ -335,19 +424,29 @@ async def can_user_do(
                 {"action": "upgrade", "current_plan": plan.id, "limit_type": "leads_per_month"},
             )
 
-        states = params.get("states") or ["Odisha"]
-        if plan.max_states == 1 and any(s.lower() != "odisha" for s in states):
-            return (
-                False,
-                "The Free plan is limited to Odisha. Upgrade to Starter (3 states) or Pro (All India) to unlock more states.",
-                {"action": "upgrade", "required_plan": "starter"},
-            )
-        if len(states) > plan.max_states:
-            return (
-                False,
-                f"Your {plan.name} plan allows up to {plan.max_states} states per run (you selected {len(states)}).",
-                {"action": "upgrade", "required_plan": "pro"},
-            )
+        state_info = await get_allowed_states_for_actor(db, actor)
+        if not state_info["all_india"]:
+            if not state_info["home_state"]:
+                return (
+                    False,
+                    "Please choose your Home State before starting a run.",
+                    {"action": "choose_state"},
+                )
+            states = params.get("states") or [state_info["home_state"]]
+            allowed_lower = {s.lower() for s in state_info["allowed_states"]}
+            locked_states = [s for s in states if s.lower() not in allowed_lower]
+            if locked_states:
+                return (
+                    False,
+                    f"Your Home State is {state_info['home_state']}. {', '.join(locked_states)} {'is' if len(locked_states) == 1 else 'are'} locked on the {plan.name} plan.",
+                    {
+                        "action": "upgrade",
+                        "error_code": "upgrade_required",
+                        "home_state": state_info["home_state"],
+                        "locked_states": locked_states,
+                        "required_plan": "starter" if plan.id == "free" else "pro",
+                    },
+                )
 
         uses_adv, pro_only = _has_advanced_filters(params.get("filters"))
         if uses_adv and not plan.allow_advanced_filters:

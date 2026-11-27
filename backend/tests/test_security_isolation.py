@@ -13,6 +13,17 @@ from app.core.database import init_db
 @pytest.mark.asyncio
 async def test_e2e_saas_funnel_and_tenant_isolation():
     await init_db()
+    from app.core.database import AsyncSessionLocal
+    from app.models.entities import AppSetting
+    from sqlalchemy.future import select
+
+    async with AsyncSessionLocal() as db:
+        s_row = (await db.execute(select(AppSetting).where(AppSetting.key == "guest_free_tries"))).scalar_one_or_none()
+        orig_tries = s_row.value if s_row else "0"
+        if s_row:
+            s_row.value = "4"
+            await db.commit()
+
     transport = ASGITransport(app=app)
 
     # Unique IP header per test so guest counters are isolated

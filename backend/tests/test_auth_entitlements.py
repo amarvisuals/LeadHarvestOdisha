@@ -24,6 +24,7 @@ async def test_guest_entitlements_and_4_run_limit():
             id=f"guest_{uuid.uuid4().hex[:8]}",
             fingerprint_hash=hash_value("fp:test"),
             ip_hash=hash_value("ip:test"),
+            home_state="Odisha",
             runs_used=0,
         )
         db.add(guest)
@@ -82,11 +83,14 @@ async def test_paid_tier_entitlements():
     await init_db()
     async with AsyncSessionLocal() as db:
         await seed_defaults(db)
+        from app.models.entities import UserExtraState
         uid = f"usr_{uuid.uuid4().hex[:8]}"
-        user = User(id=uid, name="Tester", email=f"{uid}@test.in", role="user", is_verified=True)
+        user = User(id=uid, name="Tester", email=f"{uid}@test.in", role="user", is_verified=True, home_state="Odisha")
         db.add(user)
         sub = Subscription(id=f"sub_{uid}", user_id=uid, plan_id="starter", status="active")
         db.add(sub)
+        db.add(UserExtraState(id=f"ues_1_{uid}", user_id=uid, state_name="West Bengal", granted_by="starter_choice"))
+        db.add(UserExtraState(id=f"ues_2_{uid}", user_id=uid, state_name="Andhra Pradesh", granted_by="starter_choice"))
         await db.commit()
 
         # Starter allows 3 states and basic advanced filters (no_website)

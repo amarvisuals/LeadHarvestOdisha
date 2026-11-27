@@ -53,10 +53,15 @@ export default function LeadCollectorWizard({
   const [allowAllFilters, setAllowAllFilters] = useState(false);
   const [allowPresets, setAllowPresets] = useState(false);
 
+  const [locStatus, setLocStatus] = useState<any>(null);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [chooserState, setChooserState] = useState("");
+  const [chooserSearch, setChooserSearch] = useState("");
+
   useEffect(() => {
     async function loadConfig() {
       try {
-        const [locRes, catRes, pitchRes, adRes, presetRes, statsRes, meRes] = await Promise.all([
+        const [locRes, catRes, pitchRes, adRes, presetRes, statsRes, meRes, locStatusRes] = await Promise.all([
           apiFetch("/api/config/india-locations"),
           apiFetch("/api/config/categories"),
           apiFetch("/api/config/pitch-presets"),
@@ -64,17 +69,28 @@ export default function LeadCollectorWizard({
           apiFetch("/api/presets"),
           apiFetch("/api/known-records/stats"),
           apiFetch("/api/auth/me"),
+          apiFetch("/api/location/status"),
         ]);
 
+        let stData: StateItem[] = [];
         if (locRes.ok) {
-          const stData: StateItem[] = await locRes.json();
+          stData = await locRes.json();
           setStatesList(stData);
-          if (!initialCity) {
-            const targetState = stData.find((s) => s.name.toLowerCase() === (initialState || "Odisha").toLowerCase()) || stData[0];
-            if (targetState) {
-              setSelectedStates([targetState.name]);
-              setSelectedCities(targetState.cities.slice(0, 6).map((c) => c.name));
-            }
+        }
+
+        let detectedHome: string | null = null;
+        if (locStatusRes.ok) {
+          const ls = await locStatusRes.json();
+          setLocStatus(ls);
+          detectedHome = ls.home_state || null;
+        }
+
+        if (stData.length > 0 && !initialCity) {
+          const fallbackName = initialState || detectedHome || "Odisha";
+          const targetState = stData.find((s) => s.name.toLowerCase() === fallbackName.toLowerCase()) || stData[0];
+          if (targetState) {
+            setSelectedStates([targetState.name]);
+            setSelectedCities(targetState.cities.slice(0, 6).map((c) => c.name));
           }
         }
 
@@ -240,6 +256,41 @@ export default function LeadCollectorWizard({
 
   return (
     <div id="collector-wizard" className="space-y-6">
+      {/* First-visit Home State confirmation + IP approximate location consent */}
+      {locStatus?.home_state && !locStatus?.all_india && !bannerDismissed && (
+        <div className="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200 flex flex-wrap items-center justify-between gap-2 text-xs text-emerald-900">
+          <div>
+            <span className="font-bold">
+              We found you in {locStatus.home_state}. Your free data state is {locStatus.home_state}.
+            </span>{" "}
+            <span className="text-emerald-700">
+              (Approximate location from IP is used to set your free state — never GPS.{" "}
+              <Link href="/privacy" className="underline font-semibold">Privacy Policy</Link>)
+            </span>
+          </div>
+          <div className="flex items-center space-x-3">
+            {locStatus.actor_type === "guest" && (
+              <Link href="/signup?correct=1" className="font-bold text-brand-700 hover:underline">
+                Not right? Choose your state
+              </Link>
+            )}
+            <button type="button" onClick={() => setBannerDismissed(true)} className="text-emerald-700 font-bold hover:underline">
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Mismatch protection banner */}
+      {locStatus?.mismatch_detected && !locStatus?.all_india && (
+        <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-center justify-between gap-2">
+          <span>
+            Your free state is <strong>{locStatus.home_state}</strong>. Other states are available on paid plans.
+          </span>
+          <Link href="/pricing" className="font-bold text-amber-900 underline shrink-0">Upgrade Plan</Link>
+        </div>
+      )}
+
       {errorMessage && (
         <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 flex items-center space-x-3 text-rose-800 text-sm">
           <ShieldAlert className="w-5 h-5 shrink-0 text-rose-600" />
@@ -254,6 +305,21 @@ export default function LeadCollectorWizard({
             selectedStates={selectedStates}
             selectedCities={selectedCities}
             maxStatesAllowed={maxStatesAllowed}
+            homeState={locStatus?.home_state}
+            allowedStates={locStatus?.allowed_states}
+            allIndia={Boolean(locStatus?.all_india)}
+            onLockedStateClick={(stateName) => {
+              apiFetch("/api/location/locked-click", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ state: stateName }),
+              }).catch(() => {});
+              setGateModal({
+                open: true,
+                type: "upgrade",
+                message: `${stateName} is locked on your current plan. Your free Home State is ${locStatus?.home_state || "set to your region"}. Unlock all India from ₹499/month!`,
+              });
+            }}
             onChangeStates={setSelectedStates}
             onChangeCities={setSelectedCities}
           />
@@ -309,6 +375,62 @@ export default function LeadCollectorWizard({
           />
         </div>
       </div>
+
+      {/* One-time Home State Chooser Modal (Outside India / VPN / Detection failed) */}
+      {locStatus?.requires_manual_choice && statesList.length > 0 && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <h3 className="text-lg font-black text-slate-900">Choose Your Free Home State</h3>
+            <p className="text-xs text-slate-600">
+              {locStatus.is_vpn
+                ? "We noticed a VPN or proxy connection, so please choose your Home State manually."
+                : locStatus.outside_india
+                ? "You appear to be visiting from outside India. Choose the one Indian state you want free access to."
+                : "We couldn't auto-detect your state. Choose your one free Indian state below (it locks after selection)."}
+            </p>
+            <input
+              type="text"
+              value={chooserSearch}
+              onChange={(e) => setChooserSearch(e.target.value)}
+              placeholder="Search state or UT..."
+              className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200"
+            />
+            <div className="max-h-48 overflow-y-auto grid grid-cols-2 gap-1.5">
+              {statesList
+                .filter((s) => s.name.toLowerCase().includes(chooserSearch.toLowerCase()))
+                .map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => setChooserState(s.name)}
+                    className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold border text-left ${
+                      chooserState === s.name ? "bg-brand-600 text-white border-brand-600" : "bg-slate-50 text-slate-700 border-slate-200"
+                    }`}
+                  >
+                    {s.name}
+                  </button>
+                ))}
+            </div>
+            <button
+              type="button"
+              disabled={!chooserState}
+              onClick={async () => {
+                const res = await apiFetch("/api/location/choose", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ state: chooserState }),
+                });
+                if (res.ok) {
+                  window.location.reload();
+                }
+              }}
+              className="w-full py-2.5 rounded-xl bg-brand-600 text-white text-xs font-bold disabled:opacity-50"
+            >
+              Confirm &amp; Lock {chooserState || "State"}
+            </button>
+          </div>
+        </div>
+      )}
 
       {gateModal.open && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">

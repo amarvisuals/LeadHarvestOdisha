@@ -14,7 +14,7 @@ from sqlalchemy import delete
 from app.core.config import settings
 from app.core.database import get_db
 from app.models.entities import (
-    User, Session as UserSession, Subscription, Job, KnownRecord, Preset, AnalyticsEvent
+    User, Session as UserSession, Subscription, Job, KnownRecord, Preset, AnalyticsEvent, AuditLog
 )
 from app.services.auth import (
     hash_password, verify_password, hash_value, check_rate_limit,
@@ -22,7 +22,9 @@ from app.services.auth import (
     migrate_guest_to_user, get_current_user, get_current_user_optional,
     get_admin_user, verify_totp_code, get_client_ip, COOKIE_REFRESH, COOKIE_IMPERSONATE
 )
-from app.services.entitlements import get_user_effective_plan, get_user_usage, get_setting
+from app.services.entitlements import (
+    get_user_effective_plan, get_user_usage, get_setting, get_allowed_states_for_actor
+)
 from app.services.email_service import email_service
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
@@ -34,6 +36,7 @@ class SignupRequest(BaseModel):
     password: str = Field(..., min_length=8, max_length=128)
     phone: Optional[str] = Field(default=None, max_length=32)
     business_type: Optional[str] = Field(default="Web Design / Digital Agency", max_length=100)
+    home_state: Optional[str] = Field(default=None, max_length=100)
     terms_accepted: bool = Field(...)
 
 
@@ -109,8 +112,35 @@ async def signup(
     db.add(sub)
     await db.commit()
 
-    # Attach previous guest runs and Known Records immediately
+    # Attach previous guest runs, Known Records, and Home State immediately
     migrated_count = await migrate_guest_to_user(db, request, user)
+
+    # Allow 1-time Home State confirmation or correction during signup, then lock
+    if req.home_state:
+        from app.services.geoip import resolve_canonical_state
+        canonical = resolve_canonical_state(req.home_state)
+        if canonical:
+            if user.home_state and canonical.lower() != user.home_state.lower() and not user.home_state_corrected:
+                old_st = user.home_state
+                user.home_state = canonical
+                user.home_state_source = "corrected"
+                user.home_state_corrected = True
+                user.home_state_locked_at = datetime.utcnow()
+                db.add(AuditLog(
+                    actor_user_id=user.id,
+                    actor_email=user.email,
+                    action="signup_home_state_corrected",
+                    target_type="user",
+                    target_id=user.id,
+                    details_json=json.dumps({"from": old_st, "to": canonical}),
+                    ip_hash=ip_h,
+                ))
+            elif not user.home_state:
+                user.home_state = canonical
+                user.home_state_source = "chosen"
+                user.home_state_locked_at = datetime.utcnow()
+    elif user.home_state and not user.home_state_locked_at:
+        user.home_state_locked_at = datetime.utcnow()
 
     # Log signup analytics event
     db.add(AnalyticsEvent(
@@ -247,6 +277,7 @@ async def get_me(
         guest = await get_or_create_guest(request, response, db)
         max_tries = int(await get_setting(db, "guest_free_tries", "0"))
         unlimited = max_tries <= 0
+        allowed_info = await get_allowed_states_for_actor(db, guest)
         return {
             "authenticated": False,
             "guest": {
@@ -255,11 +286,14 @@ async def get_me(
                 "max_tries": max_tries,
                 "remaining_tries": None if unlimited else max(0, max_tries - guest.runs_used),
                 "unlimited": unlimited,
+                "home_state": guest.home_state,
+                "allowed_states": allowed_info["allowed_states"],
             },
         }
 
     plan, sub = await get_user_effective_plan(db, user)
     usage = await get_user_usage(db, user)
+    allowed_info = await get_allowed_states_for_actor(db, user)
     impersonated_by = getattr(user, "_impersonated_by", None)
 
     return {
@@ -276,6 +310,13 @@ async def get_me(
             "is_verified": user.is_verified,
             "totp_enabled": user.totp_enabled,
             "marketing_unsubscribed": user.marketing_unsubscribed,
+            "home_state": user.home_state,
+            "home_state_source": user.home_state_source,
+            "home_state_locked": bool(user.home_state_locked_at),
+            "location_unverified": user.location_unverified,
+            "allowed_states": allowed_info["allowed_states"],
+            "extra_states": allowed_info["extra_states"],
+            "max_extra_slots": allowed_info["max_extra_slots"],
             "created_at": user.created_at,
         },
         "plan": {

@@ -3,12 +3,14 @@ import { SITE_URL } from "@/lib/seo";
 import { FEATURES_DATA, USE_CASES_DATA } from "@/lib/marketing-data";
 import { getAllStaticPosts } from "@/lib/blog-data";
 import { getBatch1LocalUrls } from "@/lib/local-seo";
+import { getAllStatesData } from "@/lib/state-seo-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const staticRoutes = [
     "",
+    "/india",
     "/pricing",
     "/about",
     "/contact",
@@ -49,6 +51,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  const stateHubRoutes = getAllStatesData().map((s) => ({
+    url: `${SITE_URL}/leads/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: s.wave === 1 ? 0.9 : 0.75,
+  }));
+
+  const reportRoutes = getAllStatesData()
+    .filter((s) => s.isTop12)
+    .map((s) => ({
+      url: `${SITE_URL}/reports/${s.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
+
   const localRoutes = getBatch1LocalUrls().map((l) => ({
     url: `${SITE_URL}/leads/${l.state}/${l.city}/${l.category}`,
     lastModified: now,
@@ -56,5 +74,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...featureRoutes, ...useCaseRoutes, ...blogRoutes, ...localRoutes];
+  return [...staticRoutes, ...stateHubRoutes, ...reportRoutes, ...featureRoutes, ...useCaseRoutes, ...blogRoutes, ...localRoutes];
 }

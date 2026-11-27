@@ -18,7 +18,7 @@ from app.core.database import get_db
 from app.models.entities import (
     User, Guest, Plan, Subscription, Payment, Coupon, WebhookEvent,
     Job, KnownRecord, Preset, AnalyticsEvent, PageView, AuditLog,
-    FeatureFlag, AppSetting
+    FeatureFlag, AppSetting, StateChangeRequest, UserExtraState
 )
 from app.services.auth import (
     get_admin_user, hash_password, hash_value, get_client_ip,
@@ -200,6 +200,50 @@ async def get_admin_dashboard(
             "avg_job_seconds": avg_duration,
             "total_runs_period": len(jobs),
         },
+        "home_state_analytics": await _build_home_state_analytics(db),
+    }
+
+
+async def _build_home_state_analytics(db: AsyncSession) -> Dict[str, Any]:
+    all_users = (await db.execute(select(User).where(User.role != "admin"))).scalars().all()
+    all_subs = (await db.execute(select(Subscription).where(Subscription.status == "active"))).scalars().all()
+    paid_user_ids = {s.user_id for s in all_subs if s.plan_id != "free"}
+
+    by_state: Counter = Counter()
+    paid_by_state: Counter = Counter()
+    unverified_cnt = 0
+    for u in all_users:
+        st = u.home_state or "Unassigned"
+        by_state[st] += 1
+        if u.id in paid_user_ids:
+            paid_by_state[st] += 1
+        if u.location_unverified:
+            unverified_cnt += 1
+
+    locked_clicks = (await db.execute(
+        select(AnalyticsEvent).where(AnalyticsEvent.event_name == "locked_state_clicked")
+    )).scalars().all()
+    demand_counter: Counter = Counter()
+    for ev in locked_clicks:
+        try:
+            st = json.loads(ev.properties_json or "{}").get("state")
+            if st:
+                demand_counter[st] += 1
+        except Exception:
+            pass
+
+    return {
+        "users_by_home_state": [
+            {
+                "state": st,
+                "users": cnt,
+                "paid": paid_by_state.get(st, 0),
+                "conversion_pct": round((paid_by_state.get(st, 0) / cnt) * 100, 1) if cnt else 0.0,
+            }
+            for st, cnt in by_state.most_common(12)
+        ],
+        "locked_state_demand": [{"state": st, "clicks": c} for st, c in demand_counter.most_common(10)],
+        "location_unverified_count": unverified_cnt,
     }
 
 
@@ -723,3 +767,171 @@ async def admin_update_settings(
     await db.commit()
     await _log_admin_action(db, admin, request, "update_settings", "settings", "cms", updates)
     return {"status": "updated"}
+
+
+# ---------------------------------------------------------------------------
+# Home State Admin Management, Change Requests & Test-Mode GeoIP Simulator
+# ---------------------------------------------------------------------------
+class AdminSetHomeStateRequest(BaseModel):
+    home_state: str
+    clear_unverified: bool = True
+
+
+@router.post("/users/{user_id}/home-state")
+async def admin_override_home_state(
+    user_id: str,
+    payload: AdminSetHomeStateRequest,
+    request: Request,
+    admin: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    from app.services.geoip import resolve_canonical_state
+    u = (await db.execute(select(User).where(User.id == user_id))).scalar_one_or_none()
+    if not u:
+        raise HTTPException(status_code=404, detail="User not found")
+    canonical = resolve_canonical_state(payload.home_state)
+    if not canonical:
+        raise HTTPException(status_code=400, detail="Invalid Indian state")
+    u.home_state = canonical
+    u.home_state_source = "admin_set"
+    u.home_state_locked_at = datetime.utcnow()
+    if payload.clear_unverified:
+        u.location_unverified = False
+    await db.commit()
+    await _log_admin_action(db, admin, request, "override_home_state", "user", user_id, {"home_state": canonical})
+    return {"user_id": user_id, "home_state": canonical}
+
+
+@router.post("/users/{user_id}/reset-state-cooldown")
+async def admin_reset_state_cooldown(
+    user_id: str,
+    request: Request,
+    admin: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    u = (await db.execute(select(User).where(User.id == user_id))).scalar_one_or_none()
+    if not u:
+        raise HTTPException(status_code=404, detail="User not found")
+    u.last_change_request_at = None
+    await db.commit()
+    await _log_admin_action(db, admin, request, "reset_state_cooldown", "user", user_id)
+    return {"reset": True}
+
+
+class GrantExtraStatesRequest(BaseModel):
+    states: list[str]
+    days: int = 14
+
+
+@router.post("/users/{user_id}/grant-extra-states")
+async def admin_grant_extra_states(
+    user_id: str,
+    payload: GrantExtraStatesRequest,
+    request: Request,
+    admin: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    from app.services.geoip import resolve_canonical_state
+    u = (await db.execute(select(User).where(User.id == user_id))).scalar_one_or_none()
+    if not u:
+        raise HTTPException(status_code=404, detail="User not found")
+    expires = datetime.utcnow() + timedelta(days=max(1, payload.days))
+    granted = []
+    for st in payload.states:
+        c = resolve_canonical_state(st)
+        if c:
+            db.add(UserExtraState(
+                id=f"ues_{uuid.uuid4().hex[:12]}",
+                user_id=user_id,
+                state_name=c,
+                granted_by="admin_grant",
+                expires_at=expires,
+            ))
+            granted.append(c)
+    await db.commit()
+    await _log_admin_action(db, admin, request, "grant_extra_states", "user", user_id, {"states": granted, "days": payload.days})
+    return {"granted": granted, "expires_at": expires.isoformat()}
+
+
+@router.get("/state-change-requests")
+async def admin_list_state_change_requests(
+    admin: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    rows = (await db.execute(select(StateChangeRequest).order_by(StateChangeRequest.created_at.desc()))).scalars().all()
+    out = []
+    for r in rows:
+        u = (await db.execute(select(User).where(User.id == r.user_id))).scalar_one_or_none()
+        out.append({
+            "id": r.id,
+            "user_id": r.user_id,
+            "user_email": u.email if u else "",
+            "from_state": r.from_state,
+            "to_state": r.to_state,
+            "reason": r.reason,
+            "status": r.status,
+            "auto_approved": r.auto_approved,
+            "created_at": r.created_at.isoformat() if r.created_at else None,
+        })
+    return out
+
+
+@router.post("/state-change-requests/{req_id}/review")
+async def admin_review_state_change(
+    req_id: str,
+    decision: str,  # approved | rejected
+    request: Request,
+    admin: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    if decision not in ("approved", "rejected"):
+        raise HTTPException(status_code=400, detail="Decision must be 'approved' or 'rejected'")
+    row = (await db.execute(select(StateChangeRequest).where(StateChangeRequest.id == req_id))).scalar_one_or_none()
+    if not row:
+        raise HTTPException(status_code=404, detail="Change request not found")
+
+    row.status = decision
+    row.reviewed_by = admin.email
+    row.reviewed_at = datetime.utcnow()
+    if decision == "approved":
+        u = (await db.execute(select(User).where(User.id == row.user_id))).scalar_one_or_none()
+        if u:
+            u.home_state = row.to_state
+            u.home_state_source = "chosen"
+            u.home_state_locked_at = datetime.utcnow()
+            u.last_change_request_at = datetime.utcnow()
+    await db.commit()
+    await _log_admin_action(db, admin, request, f"state_change_{decision}", "state_change_request", req_id)
+    return {"id": req_id, "status": decision}
+
+
+class SimulateGeoRequest(BaseModel):
+    mode: str  # state | vpn | outside_india | reset
+    state: Optional[str] = None
+
+
+@router.post("/test/simulate-geo")
+async def admin_simulate_geo(
+    payload: SimulateGeoRequest,
+    response: Response,
+    admin: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    from app.services.entitlements import get_flag
+    from app.services.geoip import COOKIE_TEST_GEO, COOKIE_GUEST_STATE, resolve_canonical_state
+    if not await get_flag(db, "test_mode_enabled", True):
+        raise HTTPException(status_code=403, detail="Test Mode is disabled.")
+    if payload.mode == "reset":
+        response.delete_cookie(COOKIE_TEST_GEO)
+        response.delete_cookie(COOKIE_GUEST_STATE)
+        return {"simulated": "reset"}
+    token_data: Dict[str, Any] = {"mode": payload.mode}
+    if payload.mode == "state":
+        canonical = resolve_canonical_state(payload.state)
+        if not canonical:
+            raise HTTPException(status_code=400, detail="Invalid Indian state")
+        token_data["state"] = canonical
+    token = sign_token(token_data)
+    response.set_cookie(COOKIE_TEST_GEO, token, httponly=True, samesite=settings.COOKIE_SAMESITE, max_age=86400)
+    response.delete_cookie(COOKIE_GUEST_STATE)
+    return {"simulated": token_data}

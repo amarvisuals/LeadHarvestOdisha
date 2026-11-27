@@ -15,7 +15,7 @@ export default function TermsPage() {
       </div>
       <h1 className="text-2xl font-black text-slate-900">Terms of Use</h1>
       <p><strong>1. Lawful Use &amp; Telemarketing Compliance:</strong> Customers are solely responsible for the lawful use of collected business contact data, including respecting TRAI DND (Do Not Disturb) / NCPR preferences and obtaining consent before sending marketing messages or calls.</p>
-      <p><strong>2. Acceptable Use:</strong> You may not attempt to bypass rate limits, guest trial restrictions, or access another user&apos;s data or exports.</p>
+      <p><strong>2. Home State &amp; Acceptable Use:</strong> Free access applies to one locked Home State per account (changeable once every 90 days via Settings). You may not use VPNs, cookie clearing, or API tampering to bypass state limits, rate limits, or access another user&apos;s data.</p>
       <p><strong>3. Subscriptions &amp; Billing:</strong> Paid plans renew monthly or yearly in INR via Razorpay. You may cancel anytime from your Billing page.</p>
     </div>
   );

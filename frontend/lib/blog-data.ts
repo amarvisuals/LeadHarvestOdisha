@@ -1,4 +1,5 @@
 import defaultPosts from "./default-posts.json";
+import { getStateBlogPosts } from "./state-seo-data";
 
 export interface BlogPostItem {
   slug: string;
@@ -18,11 +19,17 @@ export interface BlogPostItem {
 }
 
 export function getAllStaticPosts(): BlogPostItem[] {
-  return defaultPosts as BlogPostItem[];
+  const statePosts = getStateBlogPosts().map((p) => ({
+    ...p,
+    tags: [p.state_slug, p.category],
+    faqs: [],
+    author_bio: "Founder of LeadHarvest India & B2B Web Systems Architect.",
+  }));
+  return [...(defaultPosts as BlogPostItem[]), ...statePosts];
 }
 
 export function getStaticPostBySlug(slug: string): BlogPostItem | undefined {
-  return (defaultPosts as BlogPostItem[]).find((p) => p.slug === slug);
+  return getAllStaticPosts().find((p) => p.slug === slug);
 }
 
 export function getReadingTimeMinutes(text: string): number {

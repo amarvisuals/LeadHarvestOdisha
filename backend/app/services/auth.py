@@ -210,18 +210,56 @@ async def get_or_create_guest(
         guest = res.scalars().first()
 
     if not guest:
+        from app.services.geoip import detect_geo_for_request, read_guest_state_cookie, set_guest_state_cookie
+        from app.models.entities import GeoDetectionLog, AppSetting, FeatureFlag
+
+        # Read geoip settings if present
+        p_row = (await db.execute(select(AppSetting).where(AppSetting.key == "geoip_provider"))).scalar_one_or_none()
+        d_row = (await db.execute(select(AppSetting).where(AppSetting.key == "geoip_db_path"))).scalar_one_or_none()
+        t_row = (await db.execute(select(FeatureFlag).where(FeatureFlag.key == "test_mode_enabled"))).scalar_one_or_none()
+
+        cookie_state = read_guest_state_cookie(request)
+        geo = detect_geo_for_request(
+            request,
+            get_client_ip(request),
+            provider_name=p_row.value if p_row else None,
+            db_path=d_row.value if d_row else None,
+            test_mode_enabled=(t_row.enabled if t_row else True),
+        )
+        detected_state = cookie_state or geo.state
+
         guest = Guest(
             id=f"guest_{uuid.uuid4().hex[:16]}",
             fingerprint_hash=fp_h,
             ip_hash=ip_h,
             ua_hash=ua_h,
             runs_used=0,
+            home_state=detected_state,
+            home_state_source="chosen" if cookie_state else ("auto_detected" if detected_state else None),
+            home_state_locked_at=datetime.utcnow() if detected_state else None,
+            location_unverified=geo.is_vpn_or_proxy,
+            detection_confidence=geo.confidence,
+            country_code=geo.country_code,
         )
         db.add(guest)
+        db.add(GeoDetectionLog(
+            id=f"geo_{uuid.uuid4().hex[:12]}",
+            actor_type="guest",
+            actor_id=guest.id,
+            ip_hash=ip_h,
+            detected_state=geo.state,
+            country_code=geo.country_code,
+            is_vpn_or_proxy=geo.is_vpn_or_proxy,
+            provider=geo.provider,
+            confidence=geo.confidence,
+        ))
         await db.commit()
         await db.refresh(guest)
 
     if response is not None:
+        if guest.home_state:
+            from app.services.geoip import set_guest_state_cookie
+            set_guest_state_cookie(response, guest.home_state)
         signed_gid = sign_token({"gid": guest.id}, salt="guest")
         response.set_cookie(
             key=COOKIE_GUEST,
@@ -255,10 +293,25 @@ async def migrate_guest_to_user(
         select(Guest).where((Guest.fingerprint_hash == fp_h) | (Guest.ip_hash == ip_h))
     )
     matching_guests = res.scalars().all()
+    inherited_state = None
+    inherited_unverified = False
+    inherited_conf = None
     for g in matching_guests:
+        if g.home_state and not inherited_state:
+            inherited_state = g.home_state
+            inherited_unverified = bool(g.location_unverified)
+            inherited_conf = g.detection_confidence
         if not g.migrated_to_user_id:
             guest_ids.add(g.id)
             g.migrated_to_user_id = user.id
+
+    if inherited_state and not user.home_state:
+        user.home_state = inherited_state
+        user.home_state_source = "auto_detected"
+        user.home_state_locked_at = datetime.utcnow()
+        user.location_unverified = inherited_unverified
+        user.detection_confidence = inherited_conf
+        db.add(user)
 
     if not guest_ids:
         return 0

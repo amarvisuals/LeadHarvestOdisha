@@ -29,6 +29,13 @@ class User(Base):
     marketing_unsubscribed = Column(Boolean, default=False, nullable=False)
     terms_accepted_at = Column(DateTime, nullable=True)
     gstin = Column(String(32), nullable=True)
+    home_state = Column(String(100), nullable=True, index=True)
+    home_state_source = Column(String(32), nullable=True)  # auto_detected | chosen | corrected | admin_set | migrated
+    home_state_locked_at = Column(DateTime, nullable=True)
+    home_state_corrected = Column(Boolean, default=False, nullable=False)
+    location_unverified = Column(Boolean, default=False, nullable=False)
+    detection_confidence = Column(String(32), nullable=True)  # high | medium | low | none
+    last_change_request_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
     last_active_at = Column(DateTime, default=datetime.utcnow)
 
@@ -55,6 +62,12 @@ class Guest(Base):
     ua_hash = Column(String(128), nullable=True)
     runs_used = Column(Integer, default=0, nullable=False)
     migrated_to_user_id = Column(String(64), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    home_state = Column(String(100), nullable=True, index=True)
+    home_state_source = Column(String(32), nullable=True)
+    home_state_locked_at = Column(DateTime, nullable=True)
+    location_unverified = Column(Boolean, default=False, nullable=False)
+    detection_confidence = Column(String(32), nullable=True)
+    country_code = Column(String(10), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -549,3 +562,80 @@ class DoNotContactEntry(Base):
     reason = Column(String(255), nullable=False)
     source = Column(String(64), default="admin", nullable=False)  # opt_out | dnd | admin
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+
+# ---------------------------------------------------------------------------
+# Home State Free Access Model
+# ---------------------------------------------------------------------------
+class StateChangeRequest(Base):
+    __tablename__ = "state_change_requests"
+
+    id = Column(String(64), primary_key=True)
+    user_id = Column(String(64), ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False)
+    from_state = Column(String(100), nullable=True)
+    to_state = Column(String(100), nullable=False)
+    reason = Column(String(500), nullable=False)
+    status = Column(String(32), default="pending", index=True, nullable=False)  # pending | approved | rejected
+    auto_approved = Column(Boolean, default=False, nullable=False)
+    reviewed_by = Column(String(255), nullable=True)
+    reviewed_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+
+class UserExtraState(Base):
+    __tablename__ = "user_extra_states"
+
+    id = Column(String(64), primary_key=True)
+    user_id = Column(String(64), ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False)
+    state_name = Column(String(100), nullable=False)
+    granted_by = Column(String(32), default="starter_choice", nullable=False)  # starter_choice | admin_grant
+    expires_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class GeoDetectionLog(Base):
+    """Stores only hashed IP, detected state/country, and timestamp — never raw IP."""
+    __tablename__ = "geo_detection_log"
+
+    id = Column(String(64), primary_key=True)
+    actor_type = Column(String(16), nullable=False)  # guest | user
+    actor_id = Column(String(64), index=True, nullable=False)
+    ip_hash = Column(String(128), index=True, nullable=False)
+    detected_state = Column(String(100), nullable=True)
+    country_code = Column(String(10), nullable=True)
+    is_vpn_or_proxy = Column(Boolean, default=False, nullable=False)
+    provider = Column(String(64), nullable=False)
+    confidence = Column(String(32), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+
+# ---------------------------------------------------------------------------
+# State-Wise SEO Rollout, Quality Gate, Inventory & A/B Tests
+# ---------------------------------------------------------------------------
+class StateSeoSetting(Base):
+    __tablename__ = "state_seo_settings"
+
+    state_slug = Column(String(100), primary_key=True)
+    state_name = Column(String(100), nullable=False)
+    rollout_wave = Column(Integer, default=1, nullable=False)  # 1 | 2 | 3 | 4
+    is_published = Column(Boolean, default=True, nullable=False)
+    daily_publish_cap = Column(Integer, default=50, nullable=False)
+    min_word_count = Column(Integer, default=600, nullable=False)
+    min_data_volume = Column(Integer, default=20, nullable=False)
+    translation_reviewed_hi = Column(Boolean, default=False, nullable=False)
+    translation_reviewed_or = Column(Boolean, default=False, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class StateAbExperiment(Base):
+    __tablename__ = "state_ab_experiments"
+
+    id = Column(String(64), primary_key=True)
+    state_slug = Column(String(100), index=True, nullable=False)
+    variant = Column(String(16), nullable=False)  # A | B
+    headline = Column(String(255), nullable=False)
+    cta_text = Column(String(100), nullable=False)
+    views = Column(Integer, default=0, nullable=False)
+    conversions = Column(Integer, default=0, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

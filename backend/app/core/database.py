@@ -69,6 +69,23 @@ async def _ensure_sqlite_columns(conn):
             ("user_id", "VARCHAR(64)"),
             ("guest_id", "VARCHAR(64)"),
         ],
+        "users": [
+            ("home_state", "VARCHAR(100)"),
+            ("home_state_source", "VARCHAR(32)"),
+            ("home_state_locked_at", "DATETIME"),
+            ("home_state_corrected", "BOOLEAN DEFAULT 0"),
+            ("location_unverified", "BOOLEAN DEFAULT 0"),
+            ("detection_confidence", "VARCHAR(32)"),
+            ("last_change_request_at", "DATETIME"),
+        ],
+        "guests": [
+            ("home_state", "VARCHAR(100)"),
+            ("home_state_source", "VARCHAR(32)"),
+            ("home_state_locked_at", "DATETIME"),
+            ("location_unverified", "BOOLEAN DEFAULT 0"),
+            ("detection_confidence", "VARCHAR(32)"),
+            ("country_code", "VARCHAR(10)"),
+        ],
     }
 
     for table, cols in migrations.items():
@@ -79,6 +96,14 @@ async def _ensure_sqlite_columns(conn):
         for col_name, col_type in cols:
             if col_name not in existing:
                 await conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {col_name} {col_type}"))
+
+    # Migrate existing users who were previously limited to Odisha
+    await conn.execute(
+        text(
+            "UPDATE users SET home_state = 'Odisha', home_state_source = 'migrated' "
+            "WHERE home_state IS NULL AND role != 'admin'"
+        )
+    )
 
 
 async def init_db():

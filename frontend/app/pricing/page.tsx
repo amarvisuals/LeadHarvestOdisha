@@ -167,7 +167,13 @@ export default function PricingPage() {
                 <ul className="space-y-2 text-xs text-slate-700 pt-2 border-t border-slate-100">
                   <li className="flex items-center space-x-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{plan.max_states >= 36 ? "All 36 Indian States & UTs" : plan.max_states === 1 ? "Odisha Only" : `Up to ${plan.max_states} States`}</span>
+                    <span>
+                      {plan.max_states >= 36
+                        ? "All 36 Indian States & UTs"
+                        : plan.max_states === 1
+                        ? "Your Home State (Free)"
+                        : `Home State + ${plan.max_states - 1} Extra States`}
+                    </span>
                   </li>
                   <li className="flex items-center space-x-2">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -224,6 +230,14 @@ export default function PricingPage() {
             </div>
           );
         })}
+      </div>
+
+      {/* How Home State Works */}
+      <div id="how-it-works" className="bg-white rounded-2xl border border-slate-200 p-6 space-y-2 text-xs text-slate-700">
+        <h2 className="text-base font-black text-slate-900">Your own state is free. Unlock any other state with a plan.</h2>
+        <p>
+          When you first visit LeadHarvest India, we use your approximate IP location (never GPS) to detect your Indian state and unlock it free for you. You can confirm or correct it once during signup; after that, your Home State is locked (changeable once every 90 days in Settings).
+        </p>
       </div>
 
       {/* FAQ Section */}

@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { apiFetch } from "@/lib/api";
 import HotLeadsSection from "@/components/HotLeadsSection";
+import StateSeoAdmin from "@/components/StateSeoAdmin";
 
 type AdminTab = "dashboard" | "hot_leads" | "users" | "runs" | "plans" | "seo" | "testing";
 
@@ -29,6 +30,8 @@ export default function AdminPanelPage() {
   const [flags, setFlags] = useState<any[]>([]);
   const [settingsList, setSettingsList] = useState<any[]>([]);
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
+  const [stateChangeReqs, setStateChangeReqs] = useState<any[]>([]);
+  const [simState, setSimState] = useState("Maharashtra");
   const [authError, setAuthError] = useState(false);
 
   // Testing / Creation state
@@ -91,16 +94,18 @@ export default function AdminPanelPage() {
   }
 
   async function loadTestingTools() {
-    const [sRes, fRes, stRes, aRes] = await Promise.all([
+    const [sRes, fRes, stRes, aRes, scrRes] = await Promise.all([
       apiFetch("/api/admin/system-checks"),
       apiFetch("/api/admin/flags"),
       apiFetch("/api/admin/settings"),
       apiFetch("/api/admin/audit-logs"),
+      apiFetch("/api/admin/state-change-requests"),
     ]);
     if (sRes.ok) setSysChecks(await sRes.json());
     if (fRes.ok) setFlags(await fRes.json());
     if (stRes.ok) setSettingsList(await stRes.json());
     if (aRes.ok) setAuditLogs(await aRes.json());
+    if (scrRes.ok) setStateChangeReqs(await scrRes.json());
   }
 
   async function loadSeoAndBlog() {
@@ -579,6 +584,7 @@ export default function AdminPanelPage() {
         {/* TAB 5: SEO & BLOG CMS */}
         {tab === "seo" && (
           <div className="space-y-6 text-xs">
+            <StateSeoAdmin onNotify={notify} />
             {/* Search Console + Organic Funnel */}
             {gscData && (
               <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-4">
@@ -798,7 +804,140 @@ export default function AdminPanelPage() {
                   Create Test User
                 </button>
               </div>
+
+              <div className="flex flex-wrap gap-2 items-center pt-3 border-t border-slate-100">
+                <input value={simState} onChange={(e) => setSimState(e.target.value)} placeholder="State (e.g. Maharashtra)" className="px-3 py-1.5 border border-slate-200 rounded-xl" />
+                <button
+                  onClick={async () => {
+                    const r = await apiFetch("/api/admin/test/simulate-geo", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ mode: "state", state: simState }),
+                    });
+                    if (r.ok) notify(`Simulated visitor from ${simState}`);
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-slate-900 text-white font-bold"
+                >
+                  Simulate State
+                </button>
+                <button
+                  onClick={async () => {
+                    await apiFetch("/api/admin/test/simulate-geo", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ mode: "vpn" }),
+                    });
+                    notify("Simulated VPN visitor");
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-amber-600 text-white font-bold"
+                >
+                  Simulate VPN
+                </button>
+                <button
+                  onClick={async () => {
+                    await apiFetch("/api/admin/test/simulate-geo", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ mode: "outside_india" }),
+                    });
+                    notify("Simulated Outside India visitor");
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-bold"
+                >
+                  Simulate Outside India
+                </button>
+                <button
+                  onClick={async () => {
+                    await apiFetch("/api/admin/test/simulate-geo", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ mode: "reset" }),
+                    });
+                    notify("GeoIP simulation reset");
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-slate-200 text-slate-800 font-bold"
+                >
+                  Reset Geo
+                </button>
+              </div>
             </div>
+
+            {/* Home State Change Requests Queue */}
+            {stateChangeReqs.length > 0 && (
+              <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 text-xs">
+                <h2 className="text-sm font-bold text-slate-900">Home State Change Requests</h2>
+                <div className="divide-y divide-slate-100">
+                  {stateChangeReqs.map((r) => (
+                    <div key={r.id} className="py-2 flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <p className="font-bold text-slate-900">{r.user_email}: {r.from_state || "Unset"} → {r.to_state}</p>
+                        <p className="text-slate-500">Reason: {r.reason} · Status: <strong>{r.status}</strong></p>
+                      </div>
+                      {r.status === "pending" && (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={async () => {
+                              await apiFetch(`/api/admin/state-change-requests/${r.id}/review?decision=approved`, { method: "POST" });
+                              notify("Approved Home State change");
+                              loadTestingTools();
+                            }}
+                            className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            onClick={async () => {
+                              await apiFetch(`/api/admin/state-change-requests/${r.id}/review?decision=rejected`, { method: "POST" });
+                              notify("Rejected Home State change");
+                              loadTestingTools();
+                            }}
+                            className="px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold"
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Home State Analytics & Upgrade Demand */}
+            {dash.home_state_analytics && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xs font-bold uppercase text-slate-500">Users &amp; Paid Conversion by Home State</h2>
+                    <span className="text-[11px] font-bold text-amber-700">
+                      {dash.home_state_analytics.location_unverified_count} location-unverified
+                    </span>
+                  </div>
+                  <div className="divide-y divide-slate-100 text-xs">
+                    {(dash.home_state_analytics.users_by_home_state || []).map((row: any) => (
+                      <div key={row.state} className="py-1.5 flex items-center justify-between">
+                        <span className="font-semibold text-slate-800">{row.state}</span>
+                        <span className="text-slate-600">{row.users} users · {row.paid} paid ({row.conversion_pct}%)</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-2">
+                  <h2 className="text-xs font-bold uppercase text-slate-500">Most Clicked Locked States (Upgrade Demand)</h2>
+                  <div className="divide-y divide-slate-100 text-xs">
+                    {(dash.home_state_analytics.locked_state_demand || []).map((d: any) => (
+                      <div key={d.state} className="py-1.5 flex items-center justify-between">
+                        <span className="font-semibold text-slate-800">{d.state}</span>
+                        <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">{d.clicks} clicks</span>
+                      </div>
+                    ))}
+                    {(dash.home_state_analytics.locked_state_demand || []).length === 0 && (
+                      <p className="text-slate-400 py-4">No locked-state clicks recorded yet.</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Feature Flags & CMS Settings */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

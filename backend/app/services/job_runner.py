@@ -251,6 +251,23 @@ class JobRunnerService:
 
             adapter = JustdialAdapter() if session.adapter_name == "justdial" else MockOdishaAdapter()
 
+            # Server-side worker re-check of state entitlements before scheduling searches
+            async with AsyncSessionLocal() as chk_db:
+                from app.models.entities import User as _User, Guest as _Guest
+                from app.services.entitlements import can_user_do
+                chk_actor = None
+                if session.user_id:
+                    chk_actor = (await chk_db.execute(select(_User).where(_User.id == session.user_id))).scalar_one_or_none()
+                elif session.guest_id:
+                    chk_actor = (await chk_db.execute(select(_Guest).where(_Guest.id == session.guest_id))).scalar_one_or_none()
+                if chk_actor is not None:
+                    ok_state, deny_msg, _ = await can_user_do(
+                        chk_db, chk_actor, "start_run",
+                        {"states": session.states, "cities": session.cities, "filters": session.filters},
+                    )
+                    if not ok_state and "locked" in deny_msg.lower():
+                        raise PermissionError(deny_msg)
+
             total_combos = len(session.cities) * len(session.categories)
             combo_index = 0
 

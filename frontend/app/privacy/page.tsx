@@ -14,7 +14,7 @@ export default function PrivacyPage() {
         Draft Privacy Policy (India DPDP Act 2023) — Please review with a qualified lawyer.
       </div>
       <h1 className="text-2xl font-black text-slate-900">Privacy Policy</h1>
-      <p><strong>1. Data Collected:</strong> We collect your account profile (name, email, optional phone, business type), hashed IP/session identifiers for rate limiting and guest trial enforcement, and first-party analytics.</p>
+      <p><strong>1. Data Collected &amp; Approximate Location:</strong> We collect your account profile (name, email, optional phone, business type) and first-party analytics. On your first visit, we use your IP address to determine your approximate Indian state/UT (never GPS or precise location) to assign your free Home State. <strong>We never store raw IP addresses</strong> — only a salted cryptographic hash of your IP, detected state, country code, and timestamp.</p>
       <p><strong>2. Search Parameters &amp; Files:</strong> Your run parameters (states, cities, categories, filters) and generated Excel/CSV files are stored securely and may be inspected by the service owner for customer support, abuse prevention, and product improvement.</p>
       <p><strong>3. Data Isolation:</strong> Your uploaded files and Known Records are strictly isolated to your account and are never shared with other customers.</p>
       <p><strong>4. Your Rights (DPDP Act 2023):</strong> You can download all your data or permanently delete your account anytime from your Profile page.</p>

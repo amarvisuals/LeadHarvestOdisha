@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Database, Trash2, ArrowLeft, ShieldCheck, MapPin, Layers } from "lucide-react";
+import { Database, Trash2, ArrowLeft, ShieldCheck, MapPin, Layers, Lock } from "lucide-react";
+import { apiFetch } from "@/lib/api";
 
 interface KnownStats {
   total_records: number;
@@ -14,14 +15,27 @@ interface KnownStats {
 export default function SettingsPage() {
   const [stats, setStats] = useState<KnownStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [locStatus, setLocStatus] = useState<any>(null);
+  const [statesList, setStatesList] = useState<Array<{ id: string; name: string }>>([]);
+  const [changeTo, setChangeTo] = useState("");
+  const [changeReason, setChangeReason] = useState("");
+  const [extraSelection, setExtraSelection] = useState<string[]>([]);
+  const [stateMsg, setStateMsg] = useState<string | null>(null);
 
   async function loadStats() {
     try {
-      const res = await fetch("/api/known-records/stats");
-      if (res.ok) {
-        const data = await res.json();
-        setStats(data);
+      const [res, locRes, stRes] = await Promise.all([
+        fetch("/api/known-records/stats"),
+        apiFetch("/api/location/status"),
+        apiFetch("/api/config/india-locations"),
+      ]);
+      if (res.ok) setStats(await res.json());
+      if (locRes.ok) {
+        const ls = await locRes.json();
+        setLocStatus(ls);
+        setExtraSelection(ls.extra_states || []);
       }
+      if (stRes.ok) setStatesList(await stRes.json());
     } catch (e) {
       console.error(e);
     } finally {
@@ -53,7 +67,7 @@ export default function SettingsPage() {
             <span>Known Records & Deduplication Index</span>
           </h1>
           <p className="text-sm text-slate-500 mt-0.5">
-            Manage your persistent database of existing businesses across Odisha.
+            Manage your Home State, Starter extra states, and persistent Known Records deduplication index.
           </p>
         </div>
 
@@ -65,6 +79,113 @@ export default function SettingsPage() {
           <span>Back to Wizard</span>
         </Link>
       </div>
+
+      {/* My Home State & Starter Extra States */}
+      {locStatus && locStatus.actor_type === "user" && (
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 className="text-base font-black text-slate-900 flex items-center space-x-2">
+                <MapPin className="w-4 h-4 text-emerald-600" />
+                <span>My Home State: {locStatus.home_state || "Unset"}</span>
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                {locStatus.all_india
+                  ? "Your plan includes All 36 Indian States & UTs."
+                  : locStatus.locked
+                  ? "Your Home State is locked. You can request a change once every 90 days."
+                  : "Your migrated Home State is unlocked for one free change."}
+              </p>
+            </div>
+            {locStatus.pending_change_request && (
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+                Change pending → {locStatus.pending_change_request.to_state}
+              </span>
+            )}
+          </div>
+
+          {stateMsg && (
+            <div className="p-3 rounded-xl bg-brand-50 border border-brand-200 text-xs font-semibold text-brand-800">
+              {stateMsg}
+            </div>
+          )}
+
+          {!locStatus.all_india && !locStatus.pending_change_request && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs pt-2 border-t border-slate-100">
+              <select value={changeTo} onChange={(e) => setChangeTo(e.target.value)} className="px-3 py-2 rounded-xl border border-slate-200 bg-white">
+                <option value="">Request Home State change...</option>
+                {statesList.map((s) => <option key={s.id} value={s.name}>{s.name}</option>)}
+              </select>
+              <input value={changeReason} onChange={(e) => setChangeReason(e.target.value)} placeholder="Reason (e.g. Relocated office)" className="px-3 py-2 rounded-xl border border-slate-200" />
+              <button
+                type="button"
+                onClick={async () => {
+                  const r = await apiFetch("/api/location/change-request", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ to_state: changeTo, reason: changeReason }),
+                  });
+                  const d = await r.json();
+                  setStateMsg(r.ok ? d.message : d.detail || "Could not submit change request.");
+                  if (r.ok) loadStats();
+                }}
+                className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold"
+              >
+                Request Change
+              </button>
+            </div>
+          )}
+
+          {locStatus.max_extra_slots > 0 && !locStatus.all_india && (
+            <div className="pt-4 border-t border-slate-100 space-y-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-slate-800">
+                  Starter Extra States ({extraSelection.length} / {locStatus.max_extra_slots} slots used)
+                </span>
+                <span className="text-slate-500">Editable once every 30 days</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto">
+                {statesList
+                  .filter((s) => s.name.toLowerCase() !== (locStatus.home_state || "").toLowerCase())
+                  .map((s) => {
+                    const active = extraSelection.includes(s.name);
+                    return (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => {
+                          if (active) setExtraSelection(extraSelection.filter((x) => x !== s.name));
+                          else if (extraSelection.length < locStatus.max_extra_slots) setExtraSelection([...extraSelection, s.name]);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-semibold border ${
+                          active ? "bg-brand-600 text-white border-brand-600" : "bg-slate-50 text-slate-700 border-slate-200"
+                        }`}
+                      >
+                        {s.name}
+                      </button>
+                    );
+                  })}
+              </div>
+              <button
+                type="button"
+                onClick={async () => {
+                  const r = await apiFetch("/api/location/extra-states", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ states: extraSelection }),
+                  });
+                  const d = await r.json();
+                  setStateMsg(r.ok ? "Starter extra states saved!" : d.detail || "Could not update extra states.");
+                  if (r.ok) loadStats();
+                }}
+                className="px-4 py-2 rounded-xl bg-brand-600 text-white text-xs font-bold"
+              >
+                Save Extra States
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center py-12 text-slate-400 text-sm">Loading index statistics...</div>

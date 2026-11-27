@@ -30,6 +30,7 @@ export interface AuthState {
     max_tries: number;
     remaining_tries: number | null;
     unlimited?: boolean;
+    home_state?: string | null;
   };
 }
 
@@ -173,6 +174,15 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex items-center space-x-2 pl-2 border-l border-slate-200 ml-1">
+                {auth?.guest?.home_state && (
+                  <Link
+                    href="/pricing#how-it-works"
+                    title="Your Home State is detected from your approximate IP location and is free forever. Click to see how it works."
+                    className="hidden md:inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
+                  >
+                    Free state: {auth.guest.home_state}
+                  </Link>
+                )}
                 {auth?.guest && !auth.guest.unlimited && auth.guest.max_tries > 0 && (
                   <span className="hidden lg:inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
                     {auth.guest.remaining_tries} of {auth.guest.max_tries} free tries left

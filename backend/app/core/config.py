@@ -77,6 +77,8 @@ class Settings(BaseSettings):
 
     # Guest & SaaS defaults (0 = unlimited guest runs during testing phase)
     GUEST_FREE_TRIES_DEFAULT: int = 0
+    GEOIP_PROVIDER: str = "local"  # local | maxmind
+    GEOIP_DB_PATH: str = ""  # Optional path to GeoLite2-City.mmdb
 
     model_config = {"env_prefix": "LEADHARVEST_", "extra": "ignore"}
 

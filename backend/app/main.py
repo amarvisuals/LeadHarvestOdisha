@@ -11,6 +11,8 @@ from app.api.analytics_routes import router as analytics_router
 from app.api.admin_routes import router as admin_router
 from app.api.seo_blog_routes import router as seo_blog_router
 from app.api.hot_leads_routes import router as hot_leads_router
+from app.api.location_routes import router as location_router
+from app.api.state_seo_routes import router as state_seo_router
 
 logger = setup_logging(debug=settings.DEBUG)
 
@@ -56,6 +58,8 @@ app.include_router(analytics_router)
 app.include_router(admin_router)
 app.include_router(seo_blog_router)
 app.include_router(hot_leads_router)
+app.include_router(location_router)
+app.include_router(state_seo_router)
 
 
 @app.get("/")

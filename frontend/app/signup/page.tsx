@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { UserPlus, ArrowRight, CheckCircle2 } from "lucide-react";
+import { UserPlus, ArrowRight, CheckCircle2, MapPin } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 
 export default function SignupPage() {
@@ -11,9 +11,27 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [businessType, setBusinessType] = useState("Web Design & Development Agency");
+  const [homeState, setHomeState] = useState("");
+  const [detectedState, setDetectedState] = useState<string | null>(null);
+  const [statesList, setStatesList] = useState<Array<{ id: string; name: string }>>([]);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    Promise.all([apiFetch("/api/location/status"), apiFetch("/api/config/india-locations")]).then(
+      async ([locRes, stRes]) => {
+        if (stRes.ok) setStatesList(await stRes.json());
+        if (locRes.ok) {
+          const d = await locRes.json();
+          if (d.home_state) {
+            setDetectedState(d.home_state);
+            setHomeState(d.home_state);
+          }
+        }
+      }
+    );
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +51,7 @@ export default function SignupPage() {
           password,
           phone: phone || null,
           business_type: businessType,
+          home_state: homeState || null,
           terms_accepted: termsAccepted,
         }),
       });
@@ -107,6 +126,25 @@ export default function SignupPage() {
               placeholder="+91 98610 12345"
               className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl"
             />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Home State (Free Forever)</label>
+            <select
+              value={homeState}
+              onChange={(e) => setHomeState(e.target.value)}
+              className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold"
+            >
+              <option value="">Select Home State</option>
+              {statesList.map((s) => (
+                <option key={s.id} value={s.name}>{s.name}</option>
+              ))}
+            </select>
+            {detectedState && (
+              <p className="text-[11px] text-slate-500 mt-1">
+                Detected: <strong>{detectedState}</strong>. You may correct it once now before it locks.
+              </p>
+            )}
           </div>
 
           <div>
