@@ -56,6 +56,11 @@ class Settings(BaseSettings):
     RESEND_API_KEY: str = ""
     EMAIL_FROM: str = "noreply@leadharvest.in"
 
+    # Admin bootstrap (creates initial admin on startup if none exists; override in Render env vars)
+    ADMIN_EMAIL: str = "admin@leadharvest.in"
+    ADMIN_PASSWORD: str = "Admin@LeadHarvest2026!"
+    ADMIN_NAME: str = "Amar (Owner)"
+
     # Scraper pacing and limits
     MIN_PAGE_DELAY_SEC: float = 2.0
     MAX_PAGE_DELAY_SEC: float = 5.0

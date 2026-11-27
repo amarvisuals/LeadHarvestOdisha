@@ -129,6 +129,34 @@ async def seed_defaults(db: AsyncSession):
         if not res.scalar_one_or_none():
             db.add(AppSetting(key=key, value=val, description=desc))
 
+    # Bootstrap initial admin user if no admin exists yet
+    admin_check = await db.execute(select(User).where(User.role == "admin"))
+    if not admin_check.scalars().first() and settings.ADMIN_EMAIL and settings.ADMIN_PASSWORD:
+        from app.services.auth import hash_password
+        existing = await db.execute(select(User).where(User.email == settings.ADMIN_EMAIL))
+        admin_user = existing.scalar_one_or_none()
+        if admin_user:
+            admin_user.role = "admin"
+            admin_user.is_verified = True
+        else:
+            admin_user = User(
+                name=settings.ADMIN_NAME,
+                email=settings.ADMIN_EMAIL,
+                password_hash=hash_password(settings.ADMIN_PASSWORD),
+                business_type="Platform Owner",
+                role="admin",
+                is_verified=True,
+                terms_accepted_at=datetime.utcnow(),
+            )
+            db.add(admin_user)
+            await db.flush()
+            db.add(Subscription(
+                user_id=admin_user.id,
+                plan_id="agency",
+                status="active",
+                provider="manual",
+            ))
+
     await db.commit()
 
 

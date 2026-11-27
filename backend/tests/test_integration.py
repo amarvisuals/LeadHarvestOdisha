@@ -1,5 +1,6 @@
 import pytest
 import asyncio
+import uuid
 from httpx import AsyncClient, ASGITransport
 from app.main import app
 from app.core.database import init_db
@@ -10,7 +11,11 @@ async def test_full_pipeline_mock_run():
     await init_db()
 
     transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as client:
+    headers = {
+        "User-Agent": f"pytest-integration-{uuid.uuid4().hex[:8]}",
+        "X-Forwarded-For": f"10.0.{uuid.uuid4().int % 250}.{(uuid.uuid4().int >> 8) % 250}",
+    }
+    async with AsyncClient(transport=transport, base_url="http://test", headers=headers) as client:
         # Check health
         health = await client.get("/health")
         assert health.status_code == 200
